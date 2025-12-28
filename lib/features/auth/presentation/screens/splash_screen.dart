@@ -97,12 +97,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                   
                   return ShaderMask(
                     shaderCallback: (bounds) {
+                      // Sharp edge to prevent ghosting (0.01 feathering)
+                      final double maskVal = _animation.value;
+                      final double featherEn = (maskVal + 0.01).clamp(0.0, 1.0);
+                      
                       return LinearGradient(
                         colors: [textColor, textColor, Colors.transparent, Colors.transparent],
                         stops: [
                           0.0,
-                          _animation.value,
-                          _animation.value + 0.05, // Tighter feathering (5%)
+                          maskVal,
+                          featherEn,
                           1.0,
                         ],
                         begin: Alignment.centerLeft,
