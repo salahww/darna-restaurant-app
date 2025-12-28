@@ -139,7 +139,7 @@ class _DriverAssignmentDialogState extends ConsumerState<DriverAssignmentDialog>
                               return ListTile(
                                 tileColor: Theme.of(context).cardColor,
                                 shape: RoundedRectangleBorder(
-                                  radius: BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(8),
                                   side: BorderSide(color: Theme.of(context).dividerColor),
                                 ),
                                 leading: CircleAvatar(
