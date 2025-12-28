@@ -97,29 +97,26 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                 },
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
-                  child: Text(
-                    'Our Home is your Home',
-                    // Use a slightly larger height to prevent clipping of handwritten ascenders/descenders
-                    strutStyle: const StrutStyle(forceStrutHeight: true, height: 1.5),
-                    style: GoogleFonts.playwriteUsTrad(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                      color: textColor,
+                  child: Padding(
+                    // Add padding to ensure italic/swash characters that draw outside
+                    // their bounds (like 'e' or 'y') are not clipped by the ClipRect.
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+                    child: Text(
+                      'Our Home is your Home',
+                      // Use a slightly larger height to prevent clipping of handwritten ascenders/descenders
+                      strutStyle: const StrutStyle(forceStrutHeight: true, height: 1.5),
+                      style: GoogleFonts.playwriteUsTrad(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        color: textColor,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
             
-            const SizedBox(height: 48),
-            // Moroccan Star (Red)
-            const Icon(
-              Icons.star_rate_rounded, // Using rounded star for a softer premium look
-              color: AppColors.primary,
-              size: 32,
-            ).animate(onPlay: (controller) => controller.repeat(reverse: true))
-             .fadeIn(duration: 600.ms)
-             .scale(begin: const Offset(0.8, 0.8), end: const Offset(1.2, 1.2), duration: 1500.ms, curve: Curves.easeInOut),
+            // Star removed as requested
           ],
         ),
       ),
