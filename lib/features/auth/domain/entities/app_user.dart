@@ -4,7 +4,8 @@ import 'package:equatable/equatable.dart';
 enum UserRole {
   customer,
   driver,
-  admin;
+  admin,
+  guest; // New: for anonymous/guest users
 
   String get displayName {
     switch (this) {
@@ -14,6 +15,8 @@ enum UserRole {
         return 'Delivery Driver';
       case UserRole.admin:
         return 'Restaurant Admin';
+      case UserRole.guest:
+        return 'Guest';
     }
   }
 }
@@ -48,6 +51,9 @@ class AppUser extends Equatable {
 
   /// Check if user is a customer
   bool get isCustomer => role == UserRole.customer;
+
+  /// Check if user is a guest
+  bool get isGuest => role == UserRole.guest;
 
   /// Legacy compatibility
   bool get isRestaurant => isAdmin;
