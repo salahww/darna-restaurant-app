@@ -17,11 +17,39 @@ class SplashScreen extends ConsumerStatefulWidget {
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
   @override
   void initState() {
     super.initState();
-    // Animation completion will trigger navigation
+    
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2500),
+    );
+
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _checkAuthAndNavigate();
+      }
+    });
+
+    // Start delay to allow logo to fade in first
+    Future.delayed(const Duration(milliseconds: 800), () {
+      if (mounted) _controller.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   Future<void> _checkAuthAndNavigate() async {
@@ -31,23 +59,20 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     final user = FirebaseAuth.instance.currentUser;
     
     // Brief pause after animation for readability
-    await Future.delayed(const Duration(milliseconds: 500));
+    await Future.delayed(const Duration(milliseconds: 800));
     
     if (user != null) {
-      // User is logged in -> Navigate to Home
-      if (mounted) {
-        context.go('/');
-      }
+      if (mounted) context.go('/');
     } else {
-      // User is not logged in -> Navigate to Onboarding
-      if (mounted) {
-        context.go('/auth/onboarding');
-      }
+      if (mounted) context.go('/auth/onboarding');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : AppColors.primary;
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -63,24 +88,37 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: DefaultTextStyle(
-                style: GoogleFonts.playwriteUsTrad(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w400,
-                  color: Theme.of(context).brightness == Brightness.dark 
-                      ? Colors.white 
-                      : AppColors.primary,
-                ),
-                child: AnimatedTextKit(
-                  animatedTexts: [
-                    TypewriterAnimatedText(
-                      'Our Home is your Home',
-                      speed: const Duration(milliseconds: 100),
-                      textAlign: TextAlign.center,
+              child: AnimatedBuilder(
+                animation: _animation,
+                builder: (context, child) {
+                  return ShaderMask(
+                    shaderCallback: (bounds) {
+                      return LinearGradient(
+                        colors: [textColor, textColor, Colors.transparent, Colors.transparent],
+                        stops: [
+                          0.0,
+                          _animation.value,
+                          _animation.value + 0.1, // Feathering
+                          1.0,
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                      ).createShader(bounds);
+                    },
+                    blendMode: BlendMode.srcIn,
+                    child: child,
+                  );
+                },
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'Our Home is your Home',
+                    style: GoogleFonts.playwriteUsTrad(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: textColor, // Base color (used by ShaderMask)
                     ),
-                  ],
-                  isRepeatingAnimation: false,
-                  onFinished: _checkAuthAndNavigate,
+                  ),
                 ),
               ),
             ),
