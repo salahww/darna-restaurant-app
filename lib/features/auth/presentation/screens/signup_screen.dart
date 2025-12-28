@@ -113,9 +113,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 16),
-                const Center(child: DarnaLogo(height: 120)),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
+                const Center(child: DarnaLogo(height: 100)),
+                const SizedBox(height: 10),
                 Center(
                   child: Text(
                     'Our Home is your Home',
@@ -128,7 +128,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 16),
                 // Title
                 Text(
                   'Create Account',
@@ -138,7 +138,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   textAlign: TextAlign.center,
                 ),
                 
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
                 
                 // Name field
                 TextFormField(
@@ -158,7 +158,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   },
                 ),
                 
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 
                 // Email field
                 TextFormField(
@@ -182,7 +182,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   },
                 ),
                 
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 
                 // Phone field
                 TextFormField(
@@ -203,7 +203,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   },
                 ),
                 
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 
                 // Password field
                 TextFormField(
@@ -235,7 +235,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   },
                 ),
                 
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
                 
                 // Confirm password field
                 TextFormField(
@@ -289,7 +289,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ],
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 
                 // Sign up button
                 SizedBox(
@@ -319,7 +319,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ),
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 
                 // Or continue with divider
                 Row(
@@ -336,7 +336,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   ],
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 
                 // Google Sign-In button
                 SizedBox(

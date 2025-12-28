@@ -94,11 +94,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 
                 // Logo
-                const Center(child: DarnaLogo(height: 120)),
-                const SizedBox(height: 16),
+                const Center(child: DarnaLogo(height: 100)),
+                const SizedBox(height: 12),
                 Center(
                   child: Text(
                     'Our Home is your Home',
@@ -111,9 +111,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 40),
-                
-                const SizedBox(height: 32),
+                const SizedBox(height: 16),
                 
                 // Welcome back text
                 Text(
@@ -124,7 +122,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   textAlign: TextAlign.center,
                 ),
                 
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 
                 // Email field
                 TextFormField(
@@ -208,7 +206,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ],
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 
                 // Login button
                 SizedBox(
@@ -238,7 +236,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 
                 // Or continue with divider
                 Row(
@@ -255,7 +253,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ],
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 16),
                 
                 // Google Sign-In button
                 SizedBox(
@@ -340,7 +338,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 12),
                 
                 // Sign up link
                 Row(
