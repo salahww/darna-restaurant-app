@@ -250,4 +250,15 @@ class FirestoreDriverRepository implements DriverRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+  @override
+  Stream<bool> streamDriverAvailability(String driverId) {
+    return _firestore
+        .collection('drivers')
+        .doc(driverId)
+        .snapshots()
+        .map((doc) {
+      if (!doc.exists) return false;
+      return doc.data()?['isAvailable'] as bool? ?? false;
+    });
+  }
 }

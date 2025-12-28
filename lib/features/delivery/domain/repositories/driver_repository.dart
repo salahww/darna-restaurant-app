@@ -39,4 +39,7 @@ abstract class DriverRepository {
 
   /// Get completed orders for stats
   Future<Either<Failure, List<order_entity.Order>>> getCompletedOrders(String driverId);
+
+  /// Stream driver availability
+  Stream<bool> streamDriverAvailability(String driverId);
 }

@@ -29,7 +29,7 @@ class OrderAssignmentService {
         return false;
       }
       final orderData = orderDoc.data()!;
-      final customerId = orderData['customerId'] as String;
+      final customerId = orderData['customerId'] as String? ?? 'unknown_customer';
       
       // Get available drivers
       final driversSnapshot = await _firestore
@@ -54,8 +54,8 @@ class OrderAssignmentService {
         
         if (location != null) {
           final driverLocation = LatLng(
-            location['latitude'] as double,
-            location['longitude'] as double,
+            (location['latitude'] as num).toDouble(),
+            (location['longitude'] as num).toDouble(),
           );
           
           final distance = _calculateDistance(restaurantLocation, driverLocation);

@@ -20,31 +20,7 @@ class _DriverDashboardScreenState extends ConsumerState<DriverDashboardScreen> {
   @override
   void initState() {
     super.initState();
-    // Sync UI with Firestore 'isAvailable' persistence
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-       final driverId = ref.read(currentDriverIdProvider);
-       if (driverId != null) {
-         final result = await ref.read(driverRepositoryProvider).getDriverById(driverId);
-         
-         result.fold(
-           (failure) => debugPrint('Failed to sync driver status: ${failure.message}'),
-           (driver) async {
-             if (mounted) {
-               setState(() {
-                 _isOnline = driver.isAvailable;
-               });
-               
-               // If persistent status is Online, resume tracking if needed
-               if (_isOnline) {
-                 final locationService = ref.read(locationTrackingServiceProvider);
-                 // We don't check if running, just start (it's idempotent or handles it)
-                 await locationService.startTracking();
-               }
-             }
-           },
-         );
-       }
-    });
+    // Logic moved to build method via ref.listen/ref.watch
   }
 
   Future<void> _toggleOnlineStatus(bool value) async {
@@ -82,6 +58,22 @@ class _DriverDashboardScreenState extends ConsumerState<DriverDashboardScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    
+    // Listen to database connection status for driver availability
+    ref.listen(driverAvailabilityProvider, (previous, next) {
+      next.whenData((isAvailable) async {
+        if (_isOnline != isAvailable) {
+           setState(() => _isOnline = isAvailable);
+           
+           final locationService = ref.read(locationTrackingServiceProvider);
+           if (isAvailable) {
+             await locationService.startTracking();
+           } else {
+             await locationService.stopTracking();
+           }
+        }
+      });
+    });
     
     // Watch pending orders and active order
     final pendingOrdersAsync = ref.watch(pendingOrdersProvider);

@@ -28,10 +28,7 @@ final driverAvailabilityProvider = StreamProvider.autoDispose<bool>((ref) {
   
   if (driverId == null) return Stream.value(false);
   
-  return driverRepo.streamDriverLocation(driverId)
-      .map((_) => true); // Simplification: if stream works, we can get availability from different stream or doc
-      // Actually, we should get the full driver document stream. 
-      // For now, let's use a simpler approach for the switch in dashboard
+  return driverRepo.streamDriverAvailability(driverId);
 });
 
 /// Pending Orders Provider (orders waiting for assignment)
