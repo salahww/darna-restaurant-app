@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:darna/core/theme/app_theme.dart';
 import 'package:darna/core/widgets/darna_logo.dart';
 import 'package:darna/features/auth/presentation/providers/auth_providers.dart';
+import 'package:darna/features/admin/presentation/providers/admin_auth_provider.dart' as router_auth;
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -58,6 +59,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       );
 
       if (success && mounted) {
+        // Force refresh of the router's auth provider to fetch the newly created Firestore doc
+        // This prevents the race condition where the router sees a "Guest" state initially
+        ref.invalidate(router_auth.currentUserProvider);
         context.go('/');
       }
     } catch (e) {

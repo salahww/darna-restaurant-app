@@ -231,7 +231,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ],
             ),
             child: Icon(
-              page.icon,
+              page.title.contains('Authentic') ? Icons.star_border_rounded : page.icon, // Hollow star for authentic look
               size: 80,
               color: iconColor,
             ),
