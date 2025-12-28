@@ -111,6 +111,13 @@ class AuthService {
       });
 
       return true;
+    } on FirebaseAuthException catch (e) {
+      print('Guest Sign-In Firebase Error: ${e.code} - ${e.message}');
+      if (e.code == 'admin-restricted-operation') {
+        throw 'Anonymous sign-in is disabled. Please enable it in Firebase Console:\n'
+            'Authentication → Sign-in method → Anonymous → Enable';
+      }
+      throw 'Failed to continue as guest. Please try again.';
     } catch (e) {
       print('Guest Sign-In Error: $e');
       throw 'Failed to continue as guest. Please try again.';
