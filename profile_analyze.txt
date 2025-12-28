@@ -1,0 +1,27 @@
+﻿Analyzing profile...                                            
+
+   info - 'updateEmail' is deprecated and shouldn't be used. updateEmail() has been deprecated. Please use verifyBeforeUpdateEmail() instead - lib\features\profile\presentation\providers\user_profile_provider.dart:91:16 - deprecated_member_use
+warning - The value of the local variable 'theme' isn't used - lib\features\profile\presentation\screens\edit_profile_screen.dart:72:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\profile\presentation\screens\edit_profile_screen.dart:108:62 - deprecated_member_use
+warning - Unused import: 'package:darna/features/settings/presentation/screens/settings_screen.dart' - lib\features\profile\presentation\screens\profile_screen.dart:12:8 - unused_import
+warning - Unused import: 'package:darna/features/profile/presentation/screens/edit_profile_screen.dart' - lib\features\profile\presentation\screens\profile_screen.dart:16:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\profile\presentation\screens\profile_screen.dart:53:67 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\profile\presentation\screens\profile_screen.dart:62:68 - deprecated_member_use
+
+flutter : 7 issues found. 
+(ran in 1.3s)
+Au caractère Ligne:1 : 1
++ flutter analyze 
+lib/features/profile 2>&1 
+| Out-File -FilePath 
+profil ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
+    + CategoryInfo         
+     : NotSpecified: (7 i  
+  ssues found. (ran in 1   
+ .3s):String) [], Remot    
+eException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 

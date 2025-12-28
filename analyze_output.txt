@@ -1,0 +1,230 @@
+﻿Analyzing darna latest...                                       
+
+warning - Unused import: 'package:flutter/material.dart' - lib\core\router\app_router.dart:1:8 - unused_import
+warning - Unused import: 'package:firebase_auth/firebase_auth.dart' - lib\core\router\app_router.dart:3:8 - unused_import
+warning - Unused import: 'package:darna/features/home/presentation/screens/main_navigation_screen.dart' - lib\core\router\app_router.dart:9:8 - unused_import
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:51:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:53:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:55:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:64:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:68:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:98:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:100:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:106:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:107:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:113:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:119:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:130:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:131:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:141:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:142:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\core\services\notification_service.dart:149:3 - avoid_print
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:50:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:91:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:95:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:114:43 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:131:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:177:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:218:63 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:222:63 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:241:47 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:258:37 - deprecated_member_use
+warning - The value of the local variable 'color' isn't used - lib\core\theme\app_theme.dart:392:11 - unused_local_variable
+   info - Angle brackets will be interpreted as HTML - lib\core\utils\either_extension.dart:10:46 - unintended_html_in_doc_comment
+   info - Angle brackets will be interpreted as HTML - lib\core\utils\either_extension.dart:53:25 - unintended_html_in_doc_comment
+   info - Don't invoke 'print' in production code - lib\features\admin\data\services\driver_creation_service.dart:68:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\admin\data\services\driver_creation_service.dart:69:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\admin\data\services\driver_creation_service.dart:72:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\admin\data\services\driver_creation_service.dart:85:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\admin\data\services\driver_creation_service.dart:107:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\admin\data\services\driver_creation_service.dart:109:7 - avoid_print
+warning - The value of the local variable 'driverName' isn't used - lib\features\admin\data\services\order_assignment_service.dart:48:15 - unused_local_variable
+warning - Unused import: 'package:firebase_auth/firebase_auth.dart' - lib\features\admin\presentation\providers\admin_data_providers.dart:2:8 - unused_import
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\features\admin\presentation\screens\add_driver_screen.dart:275:17 - deprecated_member_use
+warning - The value of the local variable 'l10n' isn't used - lib\features\admin\presentation\screens\admin_dashboard_screen.dart:32:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\admin\presentation\screens\driver_management_screen.dart:104:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\admin\presentation\screens\driver_management_screen.dart:119:54 - deprecated_member_use
+warning - Unused import: 'package:darna/features/admin/data/services/translation_service.dart' - lib\features\admin\presentation\screens\product_form_screen.dart:8:8 - unused_import
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\features\admin\presentation\screens\product_form_screen.dart:349:15 - deprecated_member_use
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\features\admin\presentation\screens\product_management_screen.dart:181:15 - deprecated_member_use
+warning - Unused import: 'package:darna/features/order/presentation/providers/order_repository_provider.dart' - lib\features\admin\presentation\widgets\admin_stats_widget.dart:4:8 - unused_import
+warning - Unused import: 'package:darna/core/theme/app_theme.dart' - lib\features\admin\presentation\widgets\live_orders_widget.dart:3:8 - unused_import
+warning - Unused import: 'package:darna/features/order/presentation/providers/order_repository_provider.dart' - lib\features\admin\presentation\widgets\live_orders_widget.dart:4:8 - unused_import
+warning - Unused import: 'package:darna/features/order/domain/entities/order.dart' - lib\features\admin\presentation\widgets\live_orders_widget.dart:5:8 - unused_import
+warning - Unused import: 'package:darna/features/admin/data/services/order_assignment_service.dart' - lib\features\admin\presentation\widgets\order_card_admin.dart:6:8 - unused_import
+warning - The declaration '_buildAssignDriverButton' isn't referenced - lib\features\admin\presentation\widgets\order_card_admin.dart:277:10 - unused_element
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\ai\presentation\screens\ai_chat_screen.dart:66:42 - deprecated_member_use
+warning - Unused import: 'package:darna/features/cart/domain/entities/cart_item.dart' - lib\features\ai\presentation\widgets\message_bubble.dart:6:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\ai\presentation\widgets\message_bubble.dart:158:64 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\ai\presentation\widgets\message_bubble.dart:213:53 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\ai\presentation\widgets\message_bubble.dart:213:88 - deprecated_member_use
+  error - The argument type 'String' can't be assigned to the parameter type 'UserRole'.  - lib\features\auth\data\repositories\mock_auth_repository.dart:19:11 - argument_type_not_assignable
+  error - The argument type 'String' can't be assigned to the parameter type 'UserRole'.  - lib\features\auth\data\repositories\mock_auth_repository.dart:27:11 - argument_type_not_assignable
+  error - The argument type 'String' can't be assigned to the parameter type 'UserRole'.  - lib\features\auth\data\repositories\mock_auth_repository.dart:79:13 - argument_type_not_assignable
+   info - Don't invoke 'print' in production code - lib\features\auth\data\services\auth_service.dart:92:7 - avoid_print
+   info - Don't use 'BuildContext's across async gaps - lib\features\auth\presentation\screens\login_screen.dart:48:9 - use_build_context_synchronously
+warning - Unused import: 'package:darna/core/widgets/darna_logo.dart' - lib\features\auth\presentation\screens\onboarding_screen.dart:5:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\auth\presentation\screens\onboarding_screen.dart:114:41 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\auth\presentation\screens\onboarding_screen.dart:162:33 - deprecated_member_use
+   info - The import of 'package:flutter/foundation.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\features\auth\presentation\screens\role_based_router.dart:2:8 - unnecessary_import
+warning - This default clause is covered by the previous cases - lib\features\auth\presentation\screens\role_based_router.dart:38:11 - unreachable_switch_default
+warning - The declaration '_ComingSoonScreen' isn't referenced - lib\features\auth\presentation\screens\role_based_router.dart:58:7 - unused_element
+warning - Unused import: 'package:darna/core/widgets/darna_logo.dart' - lib\features\auth\presentation\screens\signup_screen.dart:5:8 - unused_import
+warning - The declaration '_showCheckoutDialog' isn't referenced - lib\features\cart\presentation\screens\cart_screen.dart:331:8 - unused_element
+warning - Unused import: 'package:flutter/foundation.dart' - lib\features\delivery\data\repositories\firestore_driver_repository.dart:2:8 - unused_import
+warning - The value of the local variable 'geoPoint' isn't used - lib\features\delivery\data\services\location_tracking_service.dart:78:22 - unused_local_variable
+   info - Don't invoke 'print' in production code - lib\features\delivery\data\services\route_service.dart:15:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\data\services\route_service.dart:29:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\data\services\route_service.dart:36:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\data\services\route_service.dart:61:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\data\services\route_service.dart:65:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\data\services\route_service.dart:66:7 - avoid_print
+warning - Unused import: 'package:darna/features/delivery/data/services/route_service.dart' - lib\features\delivery\presentation\screens\active_delivery_screen.dart:7:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\delivery\presentation\screens\active_delivery_screen.dart:119:54 - deprecated_member_use
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:333:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:334:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:346:15 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:351:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:356:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:361:11 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:363:11 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:366:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:372:8 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:379:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:384:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:398:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:441:7 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:444:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:445:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:446:9 - avoid_print
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:458:10 - avoid_print
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\delivery\presentation\screens\active_delivery_screen.dart:464:38 - deprecated_member_use
+   info - Don't invoke 'print' in production code - lib\features\delivery\presentation\screens\active_delivery_screen.dart:472:5 - avoid_print
+   info - 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre - lib\features\delivery\presentation\screens\driver_dashboard_screen.dart:249:13 - deprecated_member_use
+   info - Don't use 'BuildContext's across async gaps, guarded by an unrelated 'mounted' check - lib\features\delivery\presentation\screens\driver_dashboard_screen.dart:344:45 - use_build_context_synchronously
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\delivery\presentation\screens\driver_profile_screen.dart:46:69 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\delivery\presentation\screens\driver_profile_screen.dart:55:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\delivery\presentation\screens\driver_profile_screen.dart:178:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\delivery\presentation\screens\edit_driver_profile_screen.dart:124:62 - deprecated_member_use
+   info - 'value' is deprecated and shouldn't be used. Use initialValue instead. This will set the initial value for the form field. This feature was deprecated after v3.33.0-1.0.pre - lib\features\delivery\presentation\screens\edit_driver_profile_screen.dart:225:21 - deprecated_member_use
+warning - Unused import: 'package:darna/core/theme/app_theme.dart' - lib\features\delivery\presentation\widgets\instruction_banner.dart:2:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\delivery\presentation\widgets\instruction_banner.dart:24:33 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\delivery\presentation\widgets\navigation_bottom_bar.dart:25:33 - deprecated_member_use
+   info - The import of 'package:flutter/foundation.dart' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\features\home\presentation\screens\home_screen.dart:2:8 - unnecessary_import
+warning - Unused import: 'package:darna/core/constants/app_constants.dart' - lib\features\home\presentation\screens\home_screen.dart:7:8 - unused_import
+warning - Duplicate import - lib\features\home\presentation\screens\home_screen.dart:11:8 - duplicate_import
+warning - Unused import: 'package:darna/features/cart/presentation/providers/cart_provider.dart' - lib\features\home\presentation\screens\home_screen.dart:12:8 - unused_import
+warning - Unused import: 'package:darna/features/product/presentation/screens/all_products_screen.dart' - lib\features\home\presentation\screens\home_screen.dart:13:8 - unused_import
+warning - Unused import: 'package:darna/features/product/data/repositories/mock_product_repository.dart' - lib\features\home\presentation\screens\home_screen.dart:16:8 - unused_import
+warning - Unused import: 'package:darna/features/product/data/repositories/firestore_product_repository.dart' - lib\features\home\presentation\screens\home_screen.dart:17:8 - unused_import
+warning - Unused import: 'package:cloud_firestore/cloud_firestore.dart' - lib\features\home\presentation\screens\home_screen.dart:18:8 - unused_import
+warning - Unused import: 'package:darna/features/product/data/repositories/mock_product_repository.dart' - lib\features\home\presentation\screens\home_screen.dart:21:8 - unused_import
+warning - Unused import: 'package:darna/features/product/data/repositories/firestore_product_repository.dart' - lib\features\home\presentation\screens\home_screen.dart:22:8 - unused_import
+warning - Unused import: 'package:cloud_firestore/cloud_firestore.dart' - lib\features\home\presentation\screens\home_screen.dart:23:8 - unused_import
+warning - Unused import: 'package:darna/features/profile/presentation/screens/profile_screen.dart' - lib\features\home\presentation\screens\home_screen.dart:27:8 - unused_import
+warning - The value of the local variable 'result' isn't used - lib\features\home\presentation\screens\home_screen.dart:195:24 - unused_local_variable
+warning - The declaration '_seedDatabase' isn't referenced - lib\features\home\presentation\screens\home_screen.dart:291:16 - unused_element
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\home\presentation\screens\home_screen.dart:664:42 - deprecated_member_use
+warning - Unused import: 'package:darna/features/cart/presentation/providers/cart_provider.dart' - lib\features\home\presentation\screens\main_navigation_screen.dart:5:8 - unused_import
+warning - Unused import: 'package:firebase_auth/firebase_auth.dart' - lib\features\home\presentation\screens\main_navigation_screen.dart:11:8 - unused_import
+warning - Unused import: 'package:darna/features/order/presentation/screens/orders_screen.dart' - lib\features\home\presentation\screens\main_navigation_screen.dart:12:8 - unused_import
+warning - Unused import: 'package:darna/features/order/domain/entities/order.dart' - lib\features\home\presentation\screens\main_navigation_screen.dart:13:8 - unused_import
+warning - Unused import: 'package:darna/features/settings/presentation/screens/settings_screen.dart' - lib\features\home\presentation\screens\main_navigation_screen.dart:14:8 - unused_import
+warning - Unused import: 'package:darna/features/order/presentation/providers/order_repository_provider.dart' - lib\features\home\presentation\screens\main_navigation_screen.dart:16:8 - unused_import
+warning - Unused import: 'package:darna/features/auth/presentation/widgets/login_dialog.dart' - lib\features\home\presentation\screens\main_navigation_screen.dart:17:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\home\presentation\screens\main_navigation_screen.dart:153:42 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\home\presentation\screens\main_navigation_screen.dart:265:36 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\home\presentation\widgets\home_banner_carousel.dart:99:54 - deprecated_member_use
+   info - The private field _isProcessing could be 'final' - lib\features\order\presentation\screens\checkout_screen.dart:22:8 - prefer_final_fields
+warning - The value of the field '_isProcessing' isn't used - lib\features\order\presentation\screens\checkout_screen.dart:22:8 - unused_field
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\order\presentation\screens\checkout_screen.dart:308:7 - deprecated_member_use
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\order\presentation\screens\checkout_screen.dart:309:7 - deprecated_member_use
+   info - The private field _initialPosition could be 'final' - lib\features\order\presentation\screens\location_picker_screen.dart:20:10 - prefer_final_fields
+warning - The value of the field '_placemarks' isn't used - lib\features\order\presentation\screens\location_search_screen.dart:16:19 - unused_field
+warning - The value of the field '_error' isn't used - lib\features\order\presentation\screens\location_search_screen.dart:19:11 - unused_field
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\order\presentation\screens\orders_screen.dart:47:77 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\order\presentation\screens\orders_screen.dart:96:74 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\order\presentation\screens\orders_screen.dart:212:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\order\presentation\screens\orders_screen.dart:217:30 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\order\presentation\screens\orders_screen.dart:222:28 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\order\presentation\screens\orders_screen.dart:227:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\order\presentation\screens\orders_screen.dart:232:28 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\order\presentation\screens\orders_screen.dart:237:32 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\order\presentation\screens\orders_screen.dart:242:30 - deprecated_member_use
+warning - Unused import: 'package:darna/core/error/exceptions.dart' - lib\features\product\data\repositories\firestore_product_repository.dart:5:8 - unused_import
+warning - Unused import: '../../data/repositories/mock_product_repository.dart' - lib\features\product\presentation\providers\product_repository_provider.dart:5:8 - unused_import
+   info - The import of 'dart:ui' is unnecessary because all of the used elements are also provided by the import of 'package:flutter/material.dart' - lib\features\product\presentation\screens\product_detail_screen.dart:10:8 - unnecessary_import
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\product\presentation\screens\product_detail_screen.dart:534:17 - deprecated_member_use
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\product\presentation\screens\product_detail_screen.dart:535:17 - deprecated_member_use
+   info - Unnecessary use of 'toList' in a spread - lib\features\product\presentation\screens\product_detail_screen.dart:541:14 - unnecessary_to_list_in_spreads
+   info - Unnecessary use of 'toList' in a spread - lib\features\product\presentation\screens\product_detail_screen.dart:642:14 - unnecessary_to_list_in_spreads
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\product\presentation\screens\product_detail_screen.dart:694:55 - deprecated_member_use
+   info - 'updateEmail' is deprecated and shouldn't be used. updateEmail() has been deprecated. Please use verifyBeforeUpdateEmail() instead - lib\features\profile\presentation\providers\user_profile_provider.dart:91:16 - deprecated_member_use
+warning - The value of the local variable 'theme' isn't used - lib\features\profile\presentation\screens\edit_profile_screen.dart:72:11 - unused_local_variable
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\profile\presentation\screens\edit_profile_screen.dart:108:62 - deprecated_member_use
+warning - Unused import: 'package:darna/features/settings/presentation/screens/settings_screen.dart' - lib\features\profile\presentation\screens\profile_screen.dart:12:8 - unused_import
+warning - Unused import: 'package:darna/features/profile/presentation/screens/edit_profile_screen.dart' - lib\features\profile\presentation\screens\profile_screen.dart:16:8 - unused_import
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\profile\presentation\screens\profile_screen.dart:53:67 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\features\profile\presentation\screens\profile_screen.dart:62:68 - deprecated_member_use
+  error - The named parameter 'order' is required, but there's no corresponding argument - lib\features\profile\presentation\screens\profile_screen.dart:238:56 - missing_required_argument
+  error - The named parameter 'orderId' isn't defined - lib\features\profile\presentation\screens\profile_screen.dart:238:76 - undefined_named_parameter
+warning - Unused import: 'package:firebase_auth/firebase_auth.dart' - lib\features\settings\presentation\screens\settings_screen.dart:3:8 - unused_import
+   info - 'groupValue' is deprecated and shouldn't be used. Use a RadioGroup ancestor to manage group value instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\screens\settings_screen.dart:122:7 - deprecated_member_use
+   info - 'onChanged' is deprecated and shouldn't be used. Use RadioGroup to handle value change instead. This feature was deprecated after v3.32.0-0.0.pre - lib\features\settings\presentation\screens\settings_screen.dart:123:7 - deprecated_member_use
+warning - Unused import: 'features/home/presentation/screens/main_navigation_screen.dart' - lib\main.dart:9:8 - unused_import
+warning - Unused import: 'features/cart/presentation/screens/cart_screen.dart' - lib\main.dart:10:8 - unused_import
+warning - Unused import: 'features/auth/presentation/screens/role_based_router.dart' - lib\main.dart:11:8 - unused_import
+warning - Unused import: 'package:flutter_localizations/flutter_localizations.dart' - lib\main.dart:12:8 - unused_import
+warning - Unused import: 'package:darna/features/delivery/data/repositories/firestore_driver_repository.dart' - lib\setup_admin.dart:4:8 - unused_import
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:16:3 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:24:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:26:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:29:3 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:38:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:40:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:43:3 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:44:3 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:45:3 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:46:3 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:48:3 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:56:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:58:5 - avoid_print
+   info - Don't invoke 'print' in production code - lib\setup_admin.dart:61:3 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:5:3 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:10:5 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:25:5 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:26:5 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:30:3 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:34:5 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:41:7 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:42:7 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:45:7 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:57:7 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:58:7 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:60:7 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:63:5 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:64:5 - avoid_print
+   info - Don't invoke 'print' in production code - test_gemini.dart:66:3 - avoid_print
+
+flutter : 205 issues 
+found. (ran in 2.9s)
+Au caractère Ligne:1 
+: 1
++ flutter analyze 
+2>&1 | Out-File 
+-FilePath 
+analyze_output.txt 
+-Encodin ...
++ ~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo    
+          : 
+NotSpecified: (205    
+ issues found. (ran 
+in     2.9s):String) 
+[], Rem    
+oteException
+    + 
+FullyQualifiedErrorI  
+  d : 
+NativeCommandError
+ 

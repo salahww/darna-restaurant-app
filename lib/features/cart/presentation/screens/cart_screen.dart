@@ -7,6 +7,8 @@ import 'package:darna/features/order/presentation/screens/checkout_screen.dart';
 import 'package:darna/l10n/app_localizations.dart';
 import 'package:darna/core/constants/app_icons.dart';
 import 'package:darna/features/home/presentation/providers/main_navigation_provider.dart';
+import 'package:darna/core/widgets/login_prompt_dialog.dart';
+import 'package:darna/features/admin/presentation/providers/admin_auth_provider.dart';
 
 /// Shopping cart screen
 class CartScreen extends ConsumerWidget {
