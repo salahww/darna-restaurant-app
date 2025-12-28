@@ -799,7 +799,6 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       ),
     );
   }
-  }
 }
 
 /// Shimmer placeholder for product image loading
