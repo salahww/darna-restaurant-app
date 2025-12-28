@@ -24,6 +24,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:darna/core/widgets/login_prompt_dialog.dart';
 import 'package:darna/features/admin/presentation/providers/admin_auth_provider.dart';
 import 'package:darna/core/services/image_cache_service.dart';
+import 'package:darna/core/widgets/shimmer_loading.dart';
 
 /// Modern premium home screen with Dribbble-inspired design
 class HomeScreen extends ConsumerStatefulWidget {
@@ -100,10 +101,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 future: ref.read(productRepositoryProvider).getProducts(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(32),
-                        child: CircularProgressIndicator(),
+                    // Show shimmer loading grid instead of spinner
+                    return Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: ResponsiveLayout.isDesktop(context) 
+                              ? 4 
+                              : ResponsiveLayout.isTablet(context) ? 3 : 2,
+                          childAspectRatio: 0.68,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                        ),
+                        itemCount: 6, // Show 6 shimmer cards
+                        itemBuilder: (context, index) {
+                          return const ShimmerLoading(
+                            child: _ProductCardShimmer(),
+                          );
+                        },
                       ),
                     );
                   }
@@ -641,3 +658,75 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 }
+
+/// Shimmer placeholder for product card
+class _ProductCardShimmer extends StatelessWidget {
+  const _ProductCardShimmer();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: AppShadows.elevation1,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image placeholder
+          Container(
+            height: 120,
+            decoration: BoxDecoration(
+              color: AppColors.slate.withOpacity(0.2),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title placeholder
+                Container(
+                  height: 16,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppColors.slate.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // Subtitle placeholder
+                Container(
+                  height: 12,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    color: AppColors.slate.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                // Price placeholder
+                Container(
+                  height: 20,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    color: AppColors.slate.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
