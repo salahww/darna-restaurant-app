@@ -21,6 +21,8 @@ import 'package:darna/features/profile/presentation/screens/profile_screen.dart'
 import 'package:darna/core/constants/app_icons.dart';
 import 'package:darna/core/widgets/premium_product_card.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:darna/core/widgets/login_prompt_dialog.dart';
+import 'package:darna/features/admin/presentation/providers/admin_auth_provider.dart';
 
 /// Modern premium home screen with Dribbble-inspired design
 class HomeScreen extends ConsumerStatefulWidget {
@@ -234,7 +236,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           // Notification icon
           GestureDetector(
-            onTap: () {
+            onTap: () async {
+              final currentUser = ref.read(currentUserProvider).value;
+              if (currentUser?.isGuest == true) {
+                await LoginPromptDialog.show(
+                  context,
+                  feature: 'view your orders',
+                );
+                return;
+              }
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -271,7 +281,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
           // Profile icon
           GestureDetector(
-            onTap: () {
+            onTap: () async {
+              final currentUser = ref.read(currentUserProvider).value;
+              if (currentUser?.isGuest == true) {
+                await LoginPromptDialog.show(
+                  context,
+                  feature: 'access your profile',
+                );
+                return;
+              }
               context.push('/profile');
             },
             child: Container(

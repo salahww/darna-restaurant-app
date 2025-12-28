@@ -237,10 +237,10 @@ class _PremiumProductCardState extends State<PremiumProductCard> {
                           children: [
                             Text(
                               '${widget.price.toStringAsFixed(0)} DH',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.primary,
+                              style: AppTheme.priceStyle(
+                                brightness: Theme.of(context).brightness,
                                 fontSize: 14,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                             if (widget.oldPrice != null)

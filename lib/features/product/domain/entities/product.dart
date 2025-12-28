@@ -26,6 +26,8 @@ class ProductExtra extends Equatable {
     };
   }
 
+  Map<String, dynamic> toJson() => toMap();
+
   factory ProductExtra.fromMap(Map<String, dynamic> map) {
     return ProductExtra(
       id: map['id'] ?? '',
@@ -143,6 +145,8 @@ class Product extends Equatable {
       'isAvailable': isAvailable,
     };
   }
+
+  Map<String, dynamic> toJson() => toMap();
 
   factory Product.fromMap(Map<String, dynamic> map) {
     return Product(

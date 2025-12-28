@@ -137,12 +137,14 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                 children: [
                   TextField(
                     controller: _addressController,
+                    style: theme.textTheme.bodyLarge,
                     decoration: InputDecoration(
                       hintText: l10n.enterAddressHint,
+                      hintStyle: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor),
                       border: InputBorder.none,
-                      icon: const Icon(Icons.home_outlined),
+                      icon: Icon(Icons.home_outlined, color: theme.colorScheme.primary),
                       suffixIcon: IconButton(
-                        icon: const Icon(Icons.map, color: AppColors.deepTeal),
+                        icon: Icon(Icons.map, color: theme.colorScheme.primary),
                         onPressed: () async {
                           final result = await Navigator.push(
                             context,
@@ -164,10 +166,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                   TextField(
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
+                    style: theme.textTheme.bodyLarge,
                     decoration: InputDecoration(
                       hintText: l10n.phoneHint,
+                      hintStyle: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor),
                       border: InputBorder.none,
-                      icon: Icon(Icons.phone_outlined),
+                      icon: Icon(Icons.phone_outlined, color: theme.colorScheme.primary),
                     ),
                   ),
                 ],
@@ -231,9 +235,9 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       Text(l10n.totalAmount, style: theme.textTheme.titleMedium),
                       Text(
                         '${total.toStringAsFixed(0)} DH',
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          color: AppColors.deepTeal,
-                          fontWeight: FontWeight.bold,
+                        style: AppTheme.priceStyle(
+                          brightness: theme.brightness,
+                          fontSize: 22, // Approximate for titleLarge
                         ),
                       ),
                     ],
@@ -271,7 +275,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
                       _placeOrder(); // Call wrapper or direct provider call inside method
                   },
             style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.deepTeal,
+              backgroundColor: theme.colorScheme.primary,
               padding: const EdgeInsets.symmetric(vertical: 16),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -301,13 +305,12 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
   Widget _buildSectionTitle(ThemeData theme, String title, IconData icon) {
     return Row(
       children: [
-        Icon(icon, color: AppColors.deepTeal, size: 20),
+        Icon(icon, color: theme.colorScheme.primary, size: 20),
         const SizedBox(width: 8),
         Text(
           title,
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
-            color: AppColors.charcoal,
           ),
         ),
       ],
@@ -327,17 +330,19 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       value: value,
       groupValue: groupValue,
       onChanged: onChanged,
-      activeColor: AppColors.deepTeal,
+      activeColor: theme.colorScheme.primary,
       title: Text(
         title,
         style: TextStyle(
-          color: onChanged == null ? AppColors.slate : AppColors.charcoal,
+          color: onChanged == null 
+              ? theme.disabledColor 
+              : theme.textTheme.bodyLarge?.color,
           fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
         ),
       ),
       secondary: Icon(
         icon,
-        color: isSelected ? AppColors.deepTeal : AppColors.slate,
+        color: isSelected ? theme.colorScheme.primary : theme.disabledColor,
       ),
       contentPadding: EdgeInsets.zero,
     );
@@ -350,15 +355,15 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
             width: 32,
             height: 32,
             decoration: BoxDecoration(
-              color: isActive ? AppColors.deepTeal : Colors.grey[300],
+              color: isActive ? theme.colorScheme.primary : theme.disabledColor.withValues(alpha: 0.2),
               shape: BoxShape.circle,
               boxShadow: isActive ? AppShadows.elevation1 : null,
             ),
             alignment: Alignment.center,
             child: Text(
               number,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: isActive ? Colors.white : theme.textTheme.bodySmall?.color,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -367,7 +372,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
           Text(
             label,
             style: theme.textTheme.labelSmall?.copyWith(
-              color: isActive ? AppColors.deepTeal : Colors.grey,
+              color: isActive ? theme.colorScheme.primary : theme.disabledColor,
               fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
             ),
             textAlign: TextAlign.center,
@@ -382,7 +387,7 @@ class _CheckoutScreenState extends ConsumerState<CheckoutScreen> {
       width: 40,
       height: 2,
       margin: const EdgeInsets.only(bottom: 20), // Align with circle
-      color: isActive ? AppColors.deepTeal : Colors.grey[300],
+      color: isActive ? theme.colorScheme.primary : theme.disabledColor.withValues(alpha: 0.2),
     );
   }
 }

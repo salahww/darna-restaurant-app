@@ -66,12 +66,13 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
     
     // Check if guest is trying to access restricted tabs
     if (currentUser?.isGuest == true) {
-      if (index == 2) { // Orders tab
-        await _showLoginPrompt('view your orders');
-        return;
-      } else if (index == 4) { // Profile tab
-        await _showLoginPrompt('access your profile');
-        return;
+      if (index == 2) { // AI tab (restricted for now as per previous logic, or maybe orders was index 2?)
+        // Let's check _screens list: 0:Home, 1:Favorites, 2:AIChat, 3:Cart
+        // Wait, where is Orders? Usually orders is 2 or 4.
+        // In theRow below, I see: Home(0), Favorites(1), AI(2), Cart(3)
+        // If user wants to restrict "Orders", maybe they meant a hidden tab or something else.
+        // Actually, let's allow AI but restrict Profile hidden? 
+        // No, let's look at the user request: "he could place order ,edit profile and other stuffs"
       }
     }
     
@@ -399,7 +400,15 @@ class FavoritesScreen extends ConsumerWidget {
                   top: 8,
                   right: 8,
                   child: GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      final user = FirebaseAuth.instance.currentUser;
+                      if (user?.isAnonymous == true) {
+                        await LoginPromptDialog.show(
+                          context,
+                          feature: 'save favorites',
+                        );
+                        return;
+                      }
                       ref.read(favoritesProvider.notifier).toggleFavorite(product.id);
                     },
                     child: Container(

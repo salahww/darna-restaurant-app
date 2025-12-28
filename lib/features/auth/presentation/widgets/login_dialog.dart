@@ -81,6 +81,10 @@ void showLoginDialog(BuildContext context) {
           child: const Text('Cancel'),
         ),
         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.primary,
+            foregroundColor: Colors.white,
+          ),
           onPressed: () async {
             try {
               await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -100,9 +104,6 @@ void showLoginDialog(BuildContext context) {
               }
             }
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.deepTeal,
-          ),
           child: const Text('Sign In'),
         ),
       ],

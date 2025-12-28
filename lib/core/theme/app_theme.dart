@@ -203,7 +203,7 @@ class AppTheme {
     // Text Button Theme
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: AppColors.richGoldDark,
+        foregroundColor: Colors.white,
         textStyle: GoogleFonts.dmSans(
           fontSize: 16,
           fontWeight: FontWeight.w600,
@@ -392,13 +392,13 @@ class AppTheme {
     FontWeight fontWeight = FontWeight.w700,
   }) {
     final color = brightness == Brightness.light 
-        ? AppColors.richGold 
-        : AppColors.richGoldDark;
+        ? AppColors.primary 
+        : AppColors.lightText;
     
     return GoogleFonts.dmSans(
       fontSize: fontSize,
       fontWeight: fontWeight,
-      color: AppColors.primary,
+      color: color,
       letterSpacing: -0.5,
     );
   }
@@ -446,8 +446,8 @@ class AppColors {
   /// Primary Dark Mode - Bright Red
   static const Color primaryDarkMode = Color(0xFFE63946);
   
-  /// Background Dark - True Black for OLED
-  static const Color backgroundDark = Color(0xFF000000);
+  /// Background Dark - Near Black (Requested #161618)
+  static const Color backgroundDark = Color(0xFF161618);
   
   /// Surface Dark - Rich Dark Gray
   static const Color surfaceDark = Color(0xFF1E1E1E);

@@ -138,7 +138,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               onPressed: _isLoading ? null : _sendResetEmail,
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
-                foregroundColor: Colors.black87,
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -199,7 +199,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
             onPressed: () => context.go('/auth/login'),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
-              foregroundColor: Colors.black87,
+              foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
               ),

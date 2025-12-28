@@ -8,6 +8,7 @@ import 'package:darna/l10n/app_localizations.dart';
 import 'package:darna/core/constants/app_icons.dart';
 import 'package:darna/features/home/presentation/providers/main_navigation_provider.dart';
 import 'package:darna/core/widgets/login_prompt_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:darna/features/admin/presentation/providers/admin_auth_provider.dart';
 
 /// Shopping cart screen
@@ -221,7 +222,19 @@ class CartScreen extends ConsumerWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      final currentUserAsync = ref.read(currentUserProvider);
+                      final currentUser = currentUserAsync.value;
+                      
+                      // Explicitly check for guest role or anonymous status
+                      if (currentUser?.isGuest == true || FirebaseAuth.instance.currentUser?.isAnonymous == true) {
+                        await LoginPromptDialog.show(
+                          context,
+                          feature: 'place orders',
+                        );
+                        return;
+                      }
+
                       // Navigate to Checkout
                       Navigator.push(
                         context,
@@ -300,8 +313,9 @@ class CartScreen extends ConsumerWidget {
                     ? theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       )
-                    : theme.textTheme.titleLarge?.copyWith(
-                        color: AppColors.primary,
+                    : AppTheme.priceStyle(
+                        brightness: theme.brightness,
+                        fontSize: 22, // Approximate for titleLarge
                         fontWeight: FontWeight.bold,
                       ),
               ),

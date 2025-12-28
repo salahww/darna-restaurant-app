@@ -13,6 +13,7 @@ import 'package:darna/l10n/app_localizations.dart';
 import 'package:darna/features/auth/presentation/widgets/login_dialog.dart';
 import 'package:darna/features/profile/presentation/providers/user_profile_provider.dart';
 import 'package:darna/core/constants/app_icons.dart';
+import 'package:darna/core/widgets/login_prompt_dialog.dart';
 
 /// Profile Screen
 class ProfileScreen extends ConsumerWidget {
@@ -33,7 +34,16 @@ class ProfileScreen extends ConsumerWidget {
           if (userId != null)
             IconButton(
               icon: const Icon(AppIcons.edit),
-              onPressed: () {
+              onPressed: () async {
+                final user = FirebaseAuth.instance.currentUser;
+                // Double check if it's an anonymous user/guest
+                if (user?.isAnonymous == true) {
+                  await LoginPromptDialog.show(
+                    context,
+                    feature: 'edit your profile',
+                  );
+                  return;
+                }
                 context.push('/edit-profile');
               },
             ),
@@ -168,6 +178,13 @@ class ProfileScreen extends ConsumerWidget {
                       ),
                       TextButton(
                         onPressed: () {
+                          if (userId == null || FirebaseAuth.instance.currentUser?.isAnonymous == true) {
+                            LoginPromptDialog.show(
+                              context,
+                              feature: 'view your orders',
+                            );
+                            return;
+                          }
                           Navigator.push(
                             context,
                             MaterialPageRoute(

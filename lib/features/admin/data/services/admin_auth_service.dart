@@ -26,14 +26,17 @@ class AdminAuthService {
       final userDoc = await _firestore.collection('users').doc(firebaseUser.uid).get();
       
       if (!userDoc.exists) {
-        debugPrint('⚠️ User document does not exist for ${firebaseUser.email}');
-        // Create default customer user if doesn't exist
+        debugPrint('⚠️ User document does not exist for ${firebaseUser.uid}');
+        
+        // Check if this is an anonymous/guest user
+        final isAnonymous = firebaseUser.isAnonymous;
+        
         final newUser = AppUser(
           id: firebaseUser.uid,
-          email: firebaseUser.email ?? '',
-          name: firebaseUser.displayName ?? 'User',
+          email: firebaseUser.email ?? (isAnonymous ? 'guest@darna.com' : ''),
+          name: firebaseUser.displayName ?? (isAnonymous ? 'Guest' : 'User'),
           phone: firebaseUser.phoneNumber ?? '',
-          role: UserRole.customer,
+          role: isAnonymous ? UserRole.guest : UserRole.customer,
           createdAt: DateTime.now(),
         );
         

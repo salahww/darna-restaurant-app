@@ -203,7 +203,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     onPressed: _isLoading ? null : _login,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.black87,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -320,7 +320,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     const Text("Don't have an account? "),
                     TextButton(
                       onPressed: () {
-                        context.go('/auth/signup');
+                        context.push('/auth/signup');
                       },
                       child: const Text(
                         'Sign Up',

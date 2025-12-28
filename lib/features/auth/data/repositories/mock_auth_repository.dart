@@ -16,7 +16,7 @@ class MockAuthRepository implements AuthRepository {
     id: 'user_123',
     email: 'client@darna.ma',
     name: 'Karim Benali',
-    role: 'client',
+    role: UserRole.customer,
     createdAt: DateTime.now(),
   );
 
@@ -24,7 +24,7 @@ class MockAuthRepository implements AuthRepository {
     id: 'admin_123',
     email: 'admin@darna.ma',
     name: 'Darna Admin',
-    role: 'restaurant',
+    role: UserRole.admin,
     createdAt: DateTime.now(),
   );
 
@@ -76,7 +76,7 @@ class MockAuthRepository implements AuthRepository {
       email: email,
       name: name,
       phone: phone ?? '',
-      role: 'client',
+      role: UserRole.customer,
       createdAt: DateTime.now(),
     );
     

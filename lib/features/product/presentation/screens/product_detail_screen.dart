@@ -10,6 +10,8 @@ import 'package:darna/core/theme/app_theme.dart';
 import 'package:darna/l10n/app_localizations.dart';
 import 'dart:ui';
 import 'package:darna/core/constants/app_icons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:darna/core/widgets/login_prompt_dialog.dart';
 
 /// Premium product details screen with customization options
 class ProductDetailScreen extends ConsumerStatefulWidget {
@@ -236,22 +238,32 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                 isFavorite ? AppIcons.favoritesActive : AppIcons.favorites,
                 color: _showTitle ? (isFavorite ? AppColors.error : null) : (isFavorite ? AppColors.error : Colors.white),
               ),
-              onPressed: () {
+              onPressed: () async {
+                final user = FirebaseAuth.instance.currentUser;
+                if (user?.isAnonymous == true) {
+                  await LoginPromptDialog.show(
+                    context,
+                    feature: 'save favorites',
+                  );
+                  return;
+                }
                 ref.read(favoritesProvider.notifier).toggleFavorite(product.id);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      isFavorite ? l10n.removedFromFavorites : l10n.addedToFavorites,
+                if (mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        isFavorite ? l10n.removedFromFavorites : l10n.addedToFavorites,
+                      ),
+                      duration: Duration(seconds: 1),
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.only(
+                        bottom: 20,
+                        left: 16,
+                        right: 16,
+                      ),
                     ),
-                    duration: Duration(seconds: 1),
-                    behavior: SnackBarBehavior.floating,
-                    margin: EdgeInsets.only(
-                      bottom: 20,
-                      left: 16,
-                      right: 16,
-                    ),
-                  ),
-                );
+                  );
+                }
               },
             );
           },

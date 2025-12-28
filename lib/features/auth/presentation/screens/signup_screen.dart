@@ -282,7 +282,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     onPressed: _isLoading ? null : _signUp,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
-                      foregroundColor: Colors.black87,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -348,7 +348,11 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     const Text("Already have an account? "),
                     TextButton(
                       onPressed: () {
-                        context.go('/auth/login');
+                        if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.go('/auth/login');
+                        }
                       },
                       child: const Text(
                         'Sign In',
