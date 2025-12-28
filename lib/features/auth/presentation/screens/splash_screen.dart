@@ -6,7 +6,6 @@ import 'package:darna/core/widgets/darna_logo.dart';
 import 'package:darna/core/theme/app_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:animated_text_kit/animated_text_kit.dart';
 
 /// Splash screen that shows the Darna logo and checks authentication state
 /// Automatically navigates to Home if logged in, or Onboarding if not
@@ -91,6 +90,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
               child: AnimatedBuilder(
                 animation: _animation,
                 builder: (context, child) {
+                  // Ensure nothing is visible at absolute zero
+                  if (_animation.value == 0.0) {
+                    return const SizedBox.shrink(); 
+                  }
+                  
                   return ShaderMask(
                     shaderCallback: (bounds) {
                       return LinearGradient(
@@ -98,11 +102,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                         stops: [
                           0.0,
                           _animation.value,
-                          _animation.value + 0.1, // Feathering
+                          _animation.value + 0.05, // Tighter feathering (5%)
                           1.0,
                         ],
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
+                        tileMode: TileMode.clamp,
                       ).createShader(bounds);
                     },
                     blendMode: BlendMode.srcIn,
@@ -113,10 +118,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
                   fit: BoxFit.scaleDown,
                   child: Text(
                     'Our Home is your Home',
+                    // Use a slightly larger height to prevent clipping of handwritten ascenders/descenders
+                    strutStyle: const StrutStyle(forceStrutHeight: true, height: 1.5),
                     style: GoogleFonts.playwriteUsTrad(
                       fontSize: 18,
                       fontWeight: FontWeight.w400,
-                      color: textColor, // Base color (used by ShaderMask)
+                      color: textColor,
                     ),
                   ),
                 ),
@@ -124,13 +131,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
             ),
             
             const SizedBox(height: 48),
-            
-            // Loading indicator
-            const SizedBox(
-              width: 32,
-              height: 32,
-              child: CircularProgressIndicator(strokeWidth: 3),
-            ).animate().fadeIn(delay: 800.ms),
+            // Loading indicator removed as requested
           ],
         ),
       ),
