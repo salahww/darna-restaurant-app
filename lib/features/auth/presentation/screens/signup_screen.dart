@@ -344,9 +344,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          'assets/images/google_logo.png',
+                          'assets/images/google_logo_new.png',
                           height: 24,
-                          errorBuilder: (context, error, stackTrace) => const Icon(Icons.g_mobiledata, size: 32),
                         ),
                         const SizedBox(width: 12),
                         const Text(
