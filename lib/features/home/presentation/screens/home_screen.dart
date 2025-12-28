@@ -23,6 +23,7 @@ import 'package:darna/core/widgets/premium_product_card.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:darna/core/widgets/login_prompt_dialog.dart';
 import 'package:darna/features/admin/presentation/providers/admin_auth_provider.dart';
+import 'package:darna/core/services/image_cache_service.dart';
 
 /// Modern premium home screen with Dribbble-inspired design
 class HomeScreen extends ConsumerStatefulWidget {
@@ -133,6 +134,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                     (products) {
+                      // Pre-cache product images in background (only network images)
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (mounted) {
+                          ImageCacheService.precacheProductImages(
+                            context,
+                            products,
+                            onComplete: () {
+                              debugPrint('✅ All product images cached!');
+                            },
+                          );
+                        }
+                      });
+                      
                       // Filter products by category first
                       var filteredProducts = selectedCategory == 'All'
                           ? products
