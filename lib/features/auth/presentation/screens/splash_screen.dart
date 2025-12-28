@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:darna/core/widgets/darna_logo.dart';
+import 'package:darna/core/theme/app_theme.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 /// Splash screen that shows the Darna logo and checks authentication state
