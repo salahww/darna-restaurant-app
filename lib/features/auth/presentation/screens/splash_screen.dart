@@ -131,7 +131,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
             ),
             
             const SizedBox(height: 48),
-            // Loading indicator removed as requested
+            // Moroccan Star (Red)
+            const Icon(
+              Icons.star_rate_rounded, // Using rounded star for a softer premium look
+              color: AppColors.primary,
+              size: 32,
+            ).animate(onPlay: (controller) => controller.repeat(reverse: true))
+             .fadeIn(duration: 600.ms)
+             .scale(begin: const Offset(0.8, 0.8), end: const Offset(1.2, 1.2), duration: 1500.ms, curve: Curves.easeInOut),
           ],
         ),
       ),
