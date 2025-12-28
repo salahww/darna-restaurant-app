@@ -18,6 +18,8 @@ import 'package:darna/features/order/presentation/providers/order_repository_pro
 import 'package:darna/features/auth/presentation/widgets/login_dialog.dart';
 import 'package:darna/core/constants/app_icons.dart';
 import 'package:darna/features/home/presentation/providers/main_navigation_provider.dart';
+import 'package:darna/core/widgets/login_prompt_dialog.dart';
+import 'package:darna/features/admin/presentation/providers/admin_auth_provider.dart';
 
 // ... (keep existing imports)
 
@@ -59,12 +61,35 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
     ref.read(mainNavigationIndexProvider.notifier).state = index;
   }
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index) async {
+    final currentUser = ref.read(currentUserProvider).value;
+    
+    // Check if guest is trying to access restricted tabs
+    if (currentUser?.isGuest == true) {
+      if (index == 2) { // Orders tab
+        await _showLoginPrompt('view your orders');
+        return;
+      } else if (index == 4) { // Profile tab
+        await _showLoginPrompt('access your profile');
+        return;
+      }
+    }
+    
     debugPrint('🎯 Navigating to tab: $index');
     _pageController.animateToPage(
       index,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
+    );
+  }
+
+  Future<void> _showLoginPrompt(String feature) async {
+    await showDialog(
+      context: context,
+      builder: (context) => LoginPromptDialog(
+        feature: feature,
+        message: 'Create an account or login to $feature and enjoy all features.',
+      ),
     );
   }
 
