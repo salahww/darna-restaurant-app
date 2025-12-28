@@ -26,6 +26,19 @@ class LocationTrackingService {
         .map((p) => LatLng(p.latitude, p.longitude));
   }
 
+  /// Manually fetch current location (one-shot)
+  Future<LatLng?> getCurrentLocation() async {
+    try {
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      return LatLng(position.latitude, position.longitude);
+    } catch (e) {
+      // Return null instead of throwing, let UI handle it
+      return null;
+    }
+  }
+
   /// Starts tracking the driver's location and updates Firestore.
   /// Returns flase if permissions are denied.
   Future<bool> startTracking() async {

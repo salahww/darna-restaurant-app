@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:darna/features/delivery/data/repositories/firestore_driver_repository.dart';
@@ -78,10 +79,15 @@ final driverStatsProvider = FutureProvider.autoDispose<Map<String, dynamic>>((re
       final todayOrders = orders.where((order) {
         // Use pickedUpAt or createdAt as proxy for delivery date
         final date = order.pickedUpAt ?? order.createdAt;
-        return date.year == today.year && 
+        final isToday = date.year == today.year && 
                date.month == today.month && 
                date.day == today.day;
+               
+        debugPrint('Stats Check: Order ${order.id} | Date: $date | IsToday: $isToday | Status: ${order.status}');
+        return isToday;
       }).toList();
+      
+      debugPrint('DriverStats: Found ${todayOrders.length} orders for today.');
       
       // Per user request: Driver earns 15 DH per successfully delivered order
       final earnings = todayOrders.length * 15.0;

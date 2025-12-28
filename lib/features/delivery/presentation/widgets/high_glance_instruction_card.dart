@@ -1,63 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:darna/core/theme/app_theme.dart';
 
-class InstructionBanner extends StatelessWidget {
+/// High-glance instruction card optimized for motorbike delivery drivers
+/// - Large fonts (28sp+ for instructions, 48sp for distance)
+/// - High contrast colors
+/// - Readable in <0.5 seconds
+class HighGlanceInstructionCard extends StatelessWidget {
   final String instruction;
-  final String? nextInstruction;
   final String? distance;
-  
-  const InstructionBanner({
+  final String? roadName;
+  final bool isNightMode;
+
+  const HighGlanceInstructionCard({
     super.key,
     required this.instruction,
-    this.nextInstruction,
     this.distance,
+    this.roadName,
+    this.isNightMode = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Extract multi-line instruction (action\nroad)
+    // Extract action and road from instruction
     final lines = instruction.split('\n');
     final action = lines.isNotEmpty ? lines[0] : instruction;
-    final road = lines.length > 1 ? lines[1] : null;
-    
+    final road = lines.length > 1 ? lines[1] : roadName;
+
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        color: isNightMode ? const Color(0xFF1A1A1A) : Colors.white,
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: AppColors.primary, // Darna Red border
-          width: 2,
+          color: AppColors.primary,
+          width: 3,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.richGold.withOpacity(0.2),
-            blurRadius: 16,
-            offset: const Offset(0, 4),
-          ),
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
       child: Row(
         children: [
-          // Distance (HUGE - Waze style with Darna branding)
+          // Distance (HUGE - 48sp)
           if (distance != null) ...[
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
+                color: AppColors.primary.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(16),
               ),
               child: Text(
                 distance!,
                 style: TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 56,
+                  fontSize: 48,
                   fontWeight: FontWeight.w900,
+                  color: AppColors.primary,
                   letterSpacing: -2,
                 ),
               ),
@@ -65,32 +66,32 @@ class InstructionBanner extends StatelessWidget {
             const SizedBox(width: 20),
           ],
           
-          // Instruction
+          // Instruction (28sp Bold)
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Action (e.g., "HEAD EAST")
                 Text(
                   action,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
+                  style: TextStyle(
+                    fontSize: 28,
                     fontWeight: FontWeight.w800,
+                    color: isNightMode ? Colors.white : Colors.black,
                     height: 1.1,
                   ),
                 ),
-                // Road name
                 if (road != null) ...[
                   const SizedBox(height: 4),
                   Text(
                     road,
                     style: TextStyle(
-                      color: Colors.grey[700],
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.w500,
+                      color: isNightMode ? Colors.grey[400] : Colors.grey[700],
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ],

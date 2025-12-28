@@ -82,10 +82,9 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           IconButton(
             icon: Icon(Icons.logout, color: theme.colorScheme.onSurface),
             onPressed: () async {
+              // Navigate first to prevent flash of guest home screen
+              context.go('/auth/onboarding');
               await FirebaseAuth.instance.signOut();
-              if (context.mounted) {
-                context.go('/auth/login');
-              }
             },
           ),
         ],

@@ -104,10 +104,9 @@ class _DriverDashboardScreenState extends ConsumerState<DriverDashboardScreen> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
+               // Navigate first to prevent flash of guest home screen
+               context.go('/auth/onboarding');
                await FirebaseAuth.instance.signOut();
-               if (context.mounted) {
-                 context.go('/auth/login');
-               }
             },
           ),
         ],
@@ -376,15 +375,15 @@ class _DriverDashboardScreenState extends ConsumerState<DriverDashboardScreen> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.black,
+                  backgroundColor: activeOrder.status == OrderStatus.prepared ? AppColors.primary : Colors.green,
+                  foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   elevation: 0,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 ),
                 child: Text(
                   activeOrder.status == OrderStatus.prepared ? 'Pick Up Order' : 'View Delivery Details', 
-                  style: const TextStyle(fontWeight: FontWeight.bold)
+                  style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white)
                 ),
               ),
             ),

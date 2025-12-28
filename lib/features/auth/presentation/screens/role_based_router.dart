@@ -19,6 +19,17 @@ class RoleBasedRouter extends ConsumerWidget {
     return currentUserAsync.when(
       data: (user) {
         if (user == null) {
+          // Check if Firebase thinks we are logged in
+          // This prevents flashing the Home screen while fetching the user role
+          if (FirebaseAuth.instance.currentUser != null) {
+            debugPrint('RoleBasedRouter: Firebase user exists, waiting for Firestore profile...');
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+
           debugPrint('RoleBasedRouter: No user logged in');
           // No user logged in, show customer app
           return const MainNavigationScreen();

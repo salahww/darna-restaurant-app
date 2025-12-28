@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:darna/core/theme/app_theme.dart';
 
 class NavigationBottomBar extends StatelessWidget {
   final int durationMinutes;
   final double distanceKm;
   final String eta;
   final VoidCallback onExit;
+  final VoidCallback? onRecenter;
   
   const NavigationBottomBar({
     super.key,
@@ -12,21 +14,19 @@ class NavigationBottomBar extends StatelessWidget {
     required this.distanceKm,
     required this.eta,
     required this.onExit,
+    this.onRecenter,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 32), // Floating effect
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
-        color: Colors.black87,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 8,
-            offset: const Offset(0, -2),
-          ),
-        ],
+        color: const Color(0xFF1E1E1E), // Dark Surface
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: Colors.white10),
+        boxShadow: AppShadows.elevation4,
       ),
       child: SafeArea(
         top: false,
@@ -77,9 +77,7 @@ class NavigationBottomBar extends StatelessWidget {
               ),
               child: IconButton(
                 icon: const Icon(Icons.my_location, color: Colors.white),
-                onPressed: () {
-                  // Re-center camera on driver location
-                },
+                onPressed: onRecenter, // Call parent's recenter function
               ),
             ),
             

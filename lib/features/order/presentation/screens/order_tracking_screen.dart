@@ -95,12 +95,20 @@ class _OrderTrackingScreenState extends ConsumerState<OrderTrackingScreen> {
       );
     }
 
+    // Determine route start point
+    LatLng? routeStart;
+    if (order.driverLocation != null && order.status == OrderStatus.pickedUp) {
+      routeStart = order.driverLocation;
+    } else {
+      routeStart = _restaurantLocation;
+    }
+
     setState(() {
       _markers = markers;
       _polylines = {
         Polyline(
           polylineId: const PolylineId('route'),
-          points: [_restaurantLocation, _userLocation!],
+          points: [routeStart!, _userLocation!],
           color: AppColors.deepTeal,
           width: 5,
         ),

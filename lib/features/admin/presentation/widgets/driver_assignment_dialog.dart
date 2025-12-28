@@ -105,7 +105,7 @@ class _DriverAssignmentDialogState extends ConsumerState<DriverAssignmentDialog>
               child: ElevatedButton.icon(
                 onPressed: _isLoading ? null : _autoAssign,
                 icon: const Icon(Icons.auto_mode),
-                label: const Text('Auto-Assign Best Driver'),
+                label: const Text('Auto-Assign Nearest Driver'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
