@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:darna/core/widgets/darna_logo.dart';
 import 'package:darna/core/theme/app_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 /// Splash screen that shows the Darna logo and checks authentication state
@@ -57,11 +58,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 .fadeIn(duration: 800.ms, curve: Curves.easeOut)
                 .scale(begin: const Offset(0.8, 0.8), curve: Curves.easeOut),
             
-            const SizedBox(height: 24),
+            const SizedBox(height: 12),
             
             Text(
               'Our Home is your Home',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              style: GoogleFonts.dancingScript(
+                fontSize: 24,
                 fontWeight: FontWeight.w600,
                 color: Theme.of(context).brightness == Brightness.dark 
                     ? Colors.white 

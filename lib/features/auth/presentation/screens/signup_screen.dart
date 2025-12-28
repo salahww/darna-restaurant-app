@@ -115,19 +115,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               children: [
                 const SizedBox(height: 10),
                 const Center(child: DarnaLogo(height: 100)),
-                const SizedBox(height: 10),
-                Center(
-                  child: Text(
-                    'Our Home is your Home',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: theme.brightness == Brightness.dark 
-                          ? Colors.white 
-                          : AppColors.primary,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ),
                 const SizedBox(height: 16),
                 // Title
                 Text(
