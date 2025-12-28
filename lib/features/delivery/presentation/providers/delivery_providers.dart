@@ -86,8 +86,8 @@ final driverStatsProvider = FutureProvider.autoDispose<Map<String, dynamic>>((re
                date.day == today.day;
       }).toList();
       
-        // Per user request: Driver earns 15 DH per successfully delivered order
-        return sum + 15.0;
+      // Per user request: Driver earns 15 DH per successfully delivered order
+      final earnings = todayOrders.length * 15.0;
       
       return {
         'earnings': earnings,
