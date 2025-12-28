@@ -227,7 +227,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: Icon(
               page.icon,
               size: 80,
-              color: AppColors.primary,
+              // Use Moroccan Green (#006233) for the star (index 0), default primary for others
+              color: page.title.contains('Authentic') 
+                  ? const Color(0xFF006233) 
+                  : AppColors.primary,
             ),
           ).animate().scale(duration: 600.ms, curve: Curves.easeOutBack).fadeIn(duration: 600.ms),
           
