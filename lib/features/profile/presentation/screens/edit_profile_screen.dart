@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:darna/core/theme/app_theme.dart';
 import 'package:darna/features/profile/presentation/providers/user_profile_provider.dart';
+import 'package:darna/features/profile/presentation/providers/profile_picture_provider.dart';
 
 class EditProfileScreen extends ConsumerStatefulWidget {
   const EditProfileScreen({super.key});
@@ -99,45 +100,72 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Profile photo placeholder
+                  // Profile Picture with Upload
                   Center(
-                    child: Stack(
-                      children: [
-                        CircleAvatar(
-                          radius: 60,
-                          backgroundColor: AppColors.primary.withOpacity(0.2),
-                          child: Text(
-                            userProfile.name.isNotEmpty
-                                ? userProfile.name[0].toUpperCase()
-                                : 'U',
-                            style: const TextStyle(
-                              fontSize: 48,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.primary,
-                              shape: BoxShape.circle,
-                            ),
-                            child: IconButton(
-                              icon: const Icon(Icons.camera_alt, size: 20),
-                              onPressed: () {
-                                // TODO: Implement photo upload
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Photo upload coming soon!'),
+                    child: GestureDetector(
+                      onTap: () async {
+                        final profilePictureNotifier = ref.read(profilePictureProvider.notifier);
+                        
+                        final newUrl = await profilePictureNotifier.pickAndUploadImage(
+                          userProfile.uid,
+                          userProfile.profilePictureUrl,
+                        );
+                        
+                        if (newUrl != null) {
+                          // Refresh user profile
+                          ref.invalidate(userProfileProvider);
+                          if (mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Profile picture updated!'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                          }
+                        }
+                      },
+                      child: Stack(
+                        children: [
+                          // Avatar
+                          userProfile.profilePictureUrl != null && userProfile.profilePictureUrl!.isNotEmpty
+                              ? CircleAvatar(
+                                  radius: 60,
+                                  backgroundImage: NetworkImage(userProfile.profilePictureUrl!),
+                                  backgroundColor: AppColors.primary.withOpacity(0.2),
+                                )
+                              : CircleAvatar(
+                                  radius: 60,
+                                  backgroundColor: AppColors.primary.withOpacity(0.2),
+                                  child: Text(
+                                    userProfile.name.isNotEmpty
+                                        ? userProfile.name[0].toUpperCase()
+                                        : 'U',
+                                    style: const TextStyle(
+                                      fontSize: 48,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                );
-                              },
+                                ),
+                          // Camera icon overlay
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary,
+                                shape: BoxShape.circle,
+                                border: Border.all(color: Colors.white, width: 2),
+                              ),
+                              child: const Icon(
+                                Icons.camera_alt,
+                                size: 20,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
 

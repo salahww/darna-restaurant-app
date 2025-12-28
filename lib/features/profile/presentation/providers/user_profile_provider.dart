@@ -8,7 +8,7 @@ class UserProfile {
   final String email;
   final String name;
   final String phone;
-  final String? photoUrl;
+  final String? profilePictureUrl; // Changed from photoUrl to match AppUser
   final String role;
 
   UserProfile({
@@ -16,7 +16,7 @@ class UserProfile {
     required this.email,
     required this.name,
     required this.phone,
-    this.photoUrl,
+    this.profilePictureUrl,
     required this.role,
   });
 
@@ -26,7 +26,7 @@ class UserProfile {
       email: data['email'] ?? '',
       name: data['name'] ?? '',
       phone: data['phone'] ?? '',
-      photoUrl: data['photoUrl'],
+      profilePictureUrl: data['profilePictureUrl'] ?? data['photoUrl'], // Support legacy field
       role: data['role'] ?? 'customer',
     );
   }
@@ -37,7 +37,7 @@ class UserProfile {
       'email': email,
       'name': name,
       'phone': phone,
-      if (photoUrl != null) 'photoUrl': photoUrl,
+      if (profilePictureUrl != null) 'profilePictureUrl': profilePictureUrl,
       'role': role,
     };
   }

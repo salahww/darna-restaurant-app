@@ -31,6 +31,7 @@ class AppUser extends Equatable {
   final String preferredLanguage; // 'fr' or 'en'
   final List<String> favoriteProductIds;
   final DateTime? createdAt;
+  final String? profilePictureUrl; // Profile picture from Firebase Storage
 
   const AppUser({
     required this.id,
@@ -41,6 +42,7 @@ class AppUser extends Equatable {
     this.preferredLanguage = 'fr',
     this.favoriteProductIds = const [],
     this.createdAt,
+    this.profilePictureUrl,
   });
 
   /// Check if user is a restaurant admin
@@ -69,6 +71,7 @@ class AppUser extends Equatable {
     String? preferredLanguage,
     List<String>? favoriteProductIds,
     DateTime? createdAt,
+    String? profilePictureUrl,
   }) {
     return AppUser(
       id: id ?? this.id,
@@ -79,6 +82,7 @@ class AppUser extends Equatable {
       preferredLanguage: preferredLanguage ?? this.preferredLanguage,
       favoriteProductIds: favoriteProductIds ?? this.favoriteProductIds,
       createdAt: createdAt ?? this.createdAt,
+      profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
     );
   }
 
@@ -108,6 +112,7 @@ class AppUser extends Equatable {
       preferredLanguage: json['preferredLanguage'] as String? ?? 'fr',
       favoriteProductIds: List<String>.from(json['favoriteProductIds'] ?? []),
       createdAt: parsedCreatedAt,
+      profilePictureUrl: json['profilePictureUrl'] as String?,
     );
   }
 
@@ -122,6 +127,7 @@ class AppUser extends Equatable {
       'preferredLanguage': preferredLanguage,
       'favoriteProductIds': favoriteProductIds,
       'createdAt': createdAt?.toIso8601String(),
+      'profilePictureUrl': profilePictureUrl,
     };
   }
 
@@ -135,5 +141,6 @@ class AppUser extends Equatable {
         preferredLanguage,
         favoriteProductIds,
         createdAt,
+        profilePictureUrl,
       ];
 }

@@ -12,6 +12,7 @@ import 'package:darna/features/order/presentation/screens/location_picker_screen
 import 'package:darna/l10n/app_localizations.dart';
 import 'package:darna/features/auth/presentation/widgets/login_dialog.dart';
 import 'package:darna/features/profile/presentation/providers/user_profile_provider.dart';
+import 'package:darna/features/profile/presentation/providers/profile_picture_provider.dart';
 import 'package:darna/core/constants/app_icons.dart';
 import 'package:darna/core/widgets/login_prompt_dialog.dart';
 
@@ -66,29 +67,88 @@ class ProfileScreen extends ConsumerWidget {
                 ),
                 child: Column(
                   children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: theme.colorScheme.onPrimary.withOpacity(0.2),
-                      child: userProfileAsync.when(
-                        data: (profile) => Text(
-                          profile?.name.isNotEmpty == true
-                              ? profile!.name[0].toUpperCase()
-                              : (userId != null ? 'U' : 'G'),
-                          style: TextStyle(
-                            fontSize: 40,
-                            color: theme.colorScheme.onPrimary,
+                    // Profile Picture Avatar
+                    GestureDetector(
+                      onTap: userId != null && FirebaseAuth.instance.currentUser?.isAnonymous != true
+                          ? () async {
+                              final profilePictureNotifier = ref.read(profilePictureProvider.notifier);
+                              final currentUser = ref.read(userProfileProvider).value;
+                              
+                              final newUrl = await profilePictureNotifier.pickAndUploadImage(
+                                userId,
+                                currentUser?.profilePictureUrl,
+                              );
+                              
+                              if (newUrl != null) {
+                                // Refresh user profile
+                                ref.invalidate(userProfileProvider);
+                              }
+                            }
+                          : null,
+                      child: Stack(
+                        children: [
+                          userProfileAsync.when(
+                            data: (profile) {
+                              if (profile?.profilePictureUrl != null && profile!.profilePictureUrl!.isNotEmpty) {
+                                return CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: NetworkImage(profile.profilePictureUrl!),
+                                  backgroundColor: theme.colorScheme.onPrimary.withOpacity(0.2),
+                                );
+                              }
+                              return CircleAvatar(
+                                radius: 50,
+                                backgroundColor: theme.colorScheme.onPrimary.withOpacity(0.2),
+                                child: Text(
+                                  profile?.name.isNotEmpty == true
+                                      ? profile!.name[0].toUpperCase()
+                                      : (userId != null ? 'U' : 'G'),
+                                  style: TextStyle(
+                                    fontSize: 40,
+                                    color: theme.colorScheme.onPrimary,
+                                  ),
+                                ),
+                              );
+                            },
+                            loading: () => CircleAvatar(
+                              radius: 50,
+                              backgroundColor: theme.colorScheme.onPrimary.withOpacity(0.2),
+                              child: Icon(
+                                AppIcons.profile,
+                                size: 40,
+                                color: theme.colorScheme.onPrimary,
+                              ),
+                            ),
+                            error: (_, __) => CircleAvatar(
+                              radius: 50,
+                              backgroundColor: theme.colorScheme.onPrimary.withOpacity(0.2),
+                              child: Icon(
+                                AppIcons.profile,
+                                size: 40,
+                                color: theme.colorScheme.onPrimary,
+                              ),
+                            ),
                           ),
-                        ),
-                        loading: () => Icon(
-                          AppIcons.profile,
-                          size: 40,
-                          color: theme.colorScheme.onPrimary,
-                        ),
-                        error: (_, __) => Icon(
-                          AppIcons.profile,
-                          size: 40,
-                          color: theme.colorScheme.onPrimary,
-                        ),
+                          // Camera icon overlay
+                          if (userId != null && FirebaseAuth.instance.currentUser?.isAnonymous != true)
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.white, width: 2),
+                                ),
+                                child: const Icon(
+                                  Icons.camera_alt,
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 16),

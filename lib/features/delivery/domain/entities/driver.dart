@@ -13,6 +13,7 @@ class Driver {
   final String? activeOrderId;
   final double rating;
   final int totalDeliveries;
+  final String? profilePictureUrl; // Profile picture from Firebase Storage
 
   const Driver({
     required this.id,
@@ -26,6 +27,7 @@ class Driver {
     this.activeOrderId,
     required this.rating,
     required this.totalDeliveries,
+    this.profilePictureUrl,
   });
 
   /// Create Driver from Firestore document
@@ -47,6 +49,7 @@ class Driver {
       activeOrderId: json['activeOrderId'] as String?,
       rating: (json['rating'] as num).toDouble(),
       totalDeliveries: json['totalDeliveries'] as int,
+      profilePictureUrl: json['profilePictureUrl'] as String?,
     );
   }
 
@@ -69,6 +72,7 @@ class Driver {
       'activeOrderId': activeOrderId,
       'rating': rating,
       'totalDeliveries': totalDeliveries,
+      'profilePictureUrl': profilePictureUrl,
     };
   }
 
@@ -85,6 +89,7 @@ class Driver {
     String? activeOrderId,
     double? rating,
     int? totalDeliveries,
+    String? profilePictureUrl,
   }) {
     return Driver(
       id: id ?? this.id,
@@ -98,6 +103,7 @@ class Driver {
       activeOrderId: activeOrderId ?? this.activeOrderId,
       rating: rating ?? this.rating,
       totalDeliveries: totalDeliveries ?? this.totalDeliveries,
+      profilePictureUrl: profilePictureUrl ?? this.profilePictureUrl,
     );
   }
 }

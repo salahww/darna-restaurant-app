@@ -1,8 +1,13 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darna/core/theme/app_theme.dart';
+import 'package:darna/core/services/storage_service.dart';
 import 'package:darna/features/delivery/presentation/providers/driver_profile_provider.dart';
+import 'package:darna/features/profile/presentation/providers/profile_picture_provider.dart';
 
 class DriverProfileScreen extends ConsumerWidget {
   const DriverProfileScreen({super.key});
@@ -50,16 +55,95 @@ class DriverProfileScreen extends ConsumerWidget {
                   ),
                   child: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundColor: Colors.white.withOpacity(0.2),
-                        child: Text(
-                          driver.name.isNotEmpty ? driver.name[0].toUpperCase() : 'D',
-                          style: const TextStyle(
-                            fontSize: 48,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      // Profile Picture with Upload
+                      GestureDetector(
+                        onTap: () async {
+                          final storageService = ref.read(storageServiceProvider);
+                          final picker = ImagePicker();
+                          
+                          final XFile? pickedFile = await picker.pickImage(
+                            source: ImageSource.gallery,
+                            maxWidth: 1024,
+                            maxHeight: 1024,
+                          );
+                          
+                          if (pickedFile != null && context.mounted) {
+                            try {
+                              // Show loading
+                              showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (context) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                              
+                              // Upload to Firebase Storage
+                              final downloadUrl = await storageService.uploadProfilePicture(
+                                File(pickedFile.path),
+                                driver.id,
+                              );
+                              
+                              // Update Firestore for driver
+                              await FirebaseFirestore.instance
+                                  .collection('drivers')
+                                  .doc(driver.id)
+                                  .update({'profilePictureUrl': downloadUrl});
+                              
+                              if (context.mounted) {
+                                Navigator.pop(context); // Close loading
+                                ref.invalidate(currentDriverProfileProvider);
+                              }
+                            } catch (e) {
+                              if (context.mounted) {
+                                Navigator.pop(context); // Close loading
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Upload failed: $e')),
+                                );
+                              }
+                            }
+                          }
+                        },
+                        child: Stack(
+                          children: [
+                            // Avatar
+                            driver.profilePictureUrl != null && driver.profilePictureUrl!.isNotEmpty
+                                ? CircleAvatar(
+                                    radius: 60,
+                                    backgroundImage: NetworkImage(driver.profilePictureUrl!),
+                                    backgroundColor: Colors.white.withOpacity(0.2),
+                                  )
+                                : CircleAvatar(
+                                    radius: 60,
+                                    backgroundColor: Colors.white.withOpacity(0.2),
+                                    child: Text(
+                                      driver.name.isNotEmpty ? driver.name[0].toUpperCase() : 'D',
+                                      style: const TextStyle(
+                                        fontSize: 48,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                            // Camera icon overlay
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: AppColors.primary,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.white, width: 2),
+                                ),
+                                child: const Icon(
+                                  Icons.camera_alt,
+                                  size: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(height: 16),

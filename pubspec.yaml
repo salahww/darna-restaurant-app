@@ -60,6 +60,7 @@ dependencies:
   
   # Media
   image_picker: ^1.2.1
+  image: ^4.0.0  # For image compression
   
   # Maps & Location
   google_maps_flutter: ^2.6.1
