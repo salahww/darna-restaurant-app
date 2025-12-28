@@ -26,11 +26,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
     
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2500),
+      duration: const Duration(milliseconds: 3000), // Slower, smoother 3s duration
     );
 
     _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic), // More fluid curve
     );
 
     _controller.addStatusListener((status) {
@@ -90,20 +90,36 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
               child: AnimatedBuilder(
                 animation: _animation,
                 builder: (context, child) {
-                  return ClipRect(
-                    clipper: _HorizontalRevealClipper(_animation.value),
+                  return ShaderMask(
+                    shaderCallback: (bounds) {
+                      // Micro-feathering (1.5%) for smoothness without ghosting
+                      final double maskVal = _animation.value;
+                      final double featherEn = (maskVal + 0.015).clamp(0.0, 1.0);
+                      
+                      return LinearGradient(
+                        colors: [textColor, textColor, Colors.transparent, Colors.transparent],
+                        stops: [
+                          0.0,
+                          maskVal,
+                          featherEn,
+                          1.0,
+                        ],
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        tileMode: TileMode.clamp,
+                      ).createShader(bounds);
+                    },
+                    blendMode: BlendMode.srcIn,
                     child: child,
                   );
                 },
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Padding(
-                    // Add padding to ensure italic/swash characters that draw outside
-                    // their bounds (like 'e' or 'y') are not clipped by the ClipRect.
+                    // Padding is CRITICAL to prevent clipping of font swashes
                     padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
                     child: Text(
                       'Our Home is your Home',
-                      // Use a slightly larger height to prevent clipping of handwritten ascenders/descenders
                       strutStyle: const StrutStyle(forceStrutHeight: true, height: 1.5),
                       style: GoogleFonts.playwriteUsTrad(
                         fontSize: 18,
@@ -116,26 +132,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
               ),
             ),
             
-            // Star removed as requested
+            const SizedBox(height: 48),
           ],
         ),
       ),
     );
-  }
-}
-
-class _HorizontalRevealClipper extends CustomClipper<Rect> {
-  final double progress;
-
-  _HorizontalRevealClipper(this.progress);
-
-  @override
-  Rect getClip(Size size) {
-    return Rect.fromLTWH(0, 0, size.width * progress, size.height);
-  }
-
-  @override
-  bool shouldReclip(_HorizontalRevealClipper oldClipper) {
-    return oldClipper.progress != progress;
   }
 }
