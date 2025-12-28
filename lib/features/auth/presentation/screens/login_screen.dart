@@ -261,15 +261,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          'assets/images/google_logo_new.png',
+                          'assets/images/google_logo_final.png',
                           height: 24,
                         ),
                         const SizedBox(width: 12),
-                        const Text(
-                          'Sign in with Google',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                        const Flexible(
+                          child: Text(
+                            'Sign in with Google',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],

@@ -60,25 +60,31 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             
             const SizedBox(height: 12),
             
-            Text(
-              'OUR HOME IS YOUR HOME',
-              style: GoogleFonts.syncopate(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 4.0,
-                color: Theme.of(context).brightness == Brightness.dark 
-                    ? Colors.white 
-                    : AppColors.primary,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  'OUR HOME IS YOUR HOME',
+                  style: GoogleFonts.syncopate(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 4.0,
+                    color: Theme.of(context).brightness == Brightness.dark 
+                        ? Colors.white 
+                        : AppColors.primary,
+                  ),
+                ).animate()
+                 .fadeIn(duration: 1200.ms, curve: Curves.easeOut)
+                 .shimmer(
+                   duration: 2000.ms, 
+                   color: Theme.of(context).brightness == Brightness.dark 
+                       ? Colors.white.withOpacity(0.5) 
+                       : AppColors.primary.withOpacity(0.5),
+                   angle: 0,
+                 ),
               ),
-            ).animate()
-             .fadeIn(duration: 1200.ms, curve: Curves.easeOut)
-             .shimmer(
-               duration: 2000.ms, 
-               color: Theme.of(context).brightness == Brightness.dark 
-                   ? Colors.white.withOpacity(0.5) 
-                   : AppColors.primary.withOpacity(0.5),
-               angle: 0,
-             ),
+            ),
             
             const SizedBox(height: 48),
             
