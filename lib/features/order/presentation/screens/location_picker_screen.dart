@@ -29,8 +29,8 @@ class _LocationPickerScreenState extends ConsumerState<LocationPickerScreen> {
   @override
   void initState() {
     super.initState();
-    _loadSavedLocation(); // Use saved location immediately (fast!)
-    _determinePosition(); // Update with GPS in background (slow but non-blocking)
+    _loadSavedLocation(); // Only load saved location (instant!)
+    // GPS will only update when user taps "Use Current Location" button
   }
 
   void _loadSavedLocation() {
@@ -48,18 +48,38 @@ class _LocationPickerScreenState extends ConsumerState<LocationPickerScreen> {
     LocationPermission permission;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) return;
+    if (!serviceEnabled) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location services are disabled')),
+        );
+      }
+      return;
+    }
 
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) return;
+      if (permission == LocationPermission.denied) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Location permission denied')),
+          );
+        }
+        return;
+      }
     }
     
-    if (permission == LocationPermission.deniedForever) return;
+    if (permission == LocationPermission.deniedForever) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permission permanently denied')),
+        );
+      }
+      return;
+    }
 
     try {
-      // Improved timeout and accuracy
       final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.medium, 
         timeLimit: const Duration(seconds: 5)
@@ -71,7 +91,11 @@ class _LocationPickerScreenState extends ConsumerState<LocationPickerScreen> {
         ));
       }
     } catch (e) {
-      // debugPrint("Location Error: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not get location')),
+        );
+      }
     }
   }
 
