@@ -106,6 +106,7 @@ class _DriverDashboardScreenState extends ConsumerState<DriverDashboardScreen> {
             onPressed: () {
                ref.invalidate(pendingOrdersProvider);
                ref.invalidate(activeOrderProvider);
+               ref.invalidate(driverStatsProvider);
             },
           ),
           IconButton(
@@ -122,6 +123,7 @@ class _DriverDashboardScreenState extends ConsumerState<DriverDashboardScreen> {
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(pendingOrdersProvider);
+          ref.invalidate(driverStatsProvider); // Refresh stats on pull-to-refresh
           return ref.read(pendingOrdersProvider.future);
         },
         child: SingleChildScrollView(
@@ -371,10 +373,14 @@ class _DriverDashboardScreenState extends ConsumerState<DriverDashboardScreen> {
                      }
                   } else {
                      // Default navigation
-                     Navigator.push(
+                     await Navigator.push(
                        context, 
                        MaterialPageRoute(builder: (_) => ActiveDeliveryScreen(order: activeOrder))
                      );
+                     // Refresh all data when returning from delivery screen (potentially delivered)
+                     ref.invalidate(activeOrderProvider);
+                     ref.invalidate(driverStatsProvider);
+                     ref.invalidate(pendingOrdersProvider);
                   }
                 },
                 style: ElevatedButton.styleFrom(

@@ -86,15 +86,8 @@ final driverStatsProvider = FutureProvider.autoDispose<Map<String, dynamic>>((re
                date.day == today.day;
       }).toList();
       
-      final earnings = todayOrders.fold<double>(0, (sum, order) {
-        // Assume delivery fee is flat 20 DH or percentage? 
-        // For now, let's assume Driver gets 100% of delivery fee? 
-        // Or simpler: Total Amount * 0.1?
-        // Let's assume there's a delivery fee field or just count full amount for demo
-        // Reverting to user request: "real statistics". 
-        // Usually driver gets flat fee per order. Let's say 15 DH per order.
-        return sum + 15.0; 
-      });
+        // Per user request: Driver earns 15 DH per successfully delivered order
+        return sum + 15.0;
       
       return {
         'earnings': earnings,
