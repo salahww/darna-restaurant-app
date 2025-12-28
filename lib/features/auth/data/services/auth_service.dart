@@ -94,6 +94,29 @@ class AuthService {
     }
   }
 
+  /// Sign in as Guest (Anonymous)
+  Future<bool> signInAsGuest() async {
+    try {
+      final userCredential = await _auth.signInAnonymously();
+      
+      // Create a guest user document in Firestore
+      await _firestore.collection('users').doc(userCredential.user!.uid).set({
+        'uid': userCredential.user!.uid,
+        'email': null,
+        'name': 'Guest',
+        'phone': '',
+        'role': 'guest', // Special guest role
+        'isAnonymous': true,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      return true;
+    } catch (e) {
+      print('Guest Sign-In Error: $e');
+      throw 'Failed to continue as guest. Please try again.';
+    }
+  }
+
   /// Send password reset email
   Future<bool> sendPasswordResetEmail(String email) async {
     try {

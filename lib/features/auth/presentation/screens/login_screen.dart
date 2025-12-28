@@ -264,6 +264,53 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 
+                const SizedBox(height: 16),
+                
+                // Continue as Guest button
+                TextButton.icon(
+                  onPressed: _isLoading ? null : () async {
+                    setState(() => _isLoading = true);
+                    try {
+                      // Create a guest account
+                      final success = await ref.read(authServiceProvider).signInAsGuest();
+                      if (success && mounted) {
+                        context.go('/');
+                      }
+                    } catch (e) {
+                      if (mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Failed to continue as guest: $e')),
+                        );
+                      }
+                    } finally {
+                      if (mounted) {
+                        setState(() => _isLoading = false);
+                      }
+                    }
+                  },
+                  icon: const Icon(Icons.person_outline, size: 20),
+                  label: const Text(
+                    'Continue as Guest',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  style: TextButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 48),
+                    foregroundColor: Colors.grey[600],
+                  ),
+                ),
+                
+                const SizedBox(height: 8),
+                
+                Center(
+                  child: Text(
+                    'Browse without creating an account',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                ),
+                
                 const SizedBox(height: 24),
                 
                 // Sign up link

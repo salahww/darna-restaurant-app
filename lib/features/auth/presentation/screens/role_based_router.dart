@@ -34,6 +34,9 @@ class RoleBasedRouter extends ConsumerWidget {
           case UserRole.driver:
             debugPrint('RoleBasedRouter: Showing Driver Dashboard');
             return const DriverDashboardScreen();
+          case UserRole.guest:
+            debugPrint('RoleBasedRouter: Showing Guest (Customer) App');
+            return const MainNavigationScreen();
           case UserRole.customer:
           default:
             debugPrint('RoleBasedRouter: Showing Customer App');
