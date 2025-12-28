@@ -51,7 +51,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Logo with fade-in animation
-            const DarnaLogo(height: 120)
+            const DarnaLogo(height: 180)
                 .animate()
                 .fadeIn(duration: 800.ms, curve: Curves.easeOut)
                 .scale(begin: const Offset(0.8, 0.8), curve: Curves.easeOut),
@@ -60,8 +60,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             
             // App tagline
             Text(
-              'Premium Moroccan Cuisine',
-              style: Theme.of(context).textTheme.titleMedium,
+              'Our Home is your Home',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
             ).animate().fadeIn(delay: 400.ms, duration: 600.ms),
             
             const SizedBox(height: 48),

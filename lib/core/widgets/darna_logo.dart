@@ -21,17 +21,10 @@ class DarnaLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     
-    // Choose logo based on branding preference
-    final String logoPath;
-    if (useNewBranding) {
-      logoPath = isDark 
-        ? 'assets/images/darna_logo_dark_red.png' 
-        : 'assets/images/darna_logo_light_red.png';
-    } else {
-      logoPath = isDark 
+    // Choose logo based on brightness
+    final String logoPath = isDark 
         ? 'assets/images/darna_dark.png' 
         : 'assets/images/darna_light.png';
-    }
     
     Widget logoWidget = Image.asset(
       logoPath,
