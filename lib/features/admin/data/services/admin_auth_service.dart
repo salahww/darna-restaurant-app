@@ -51,8 +51,32 @@ Future<AppUser?> getCurrentUser() async {
         );
     
     if (!userDoc.exists) {
-      debugPrint('⚠️ User document does not exist for ${firebaseUser.uid}');
+      debugPrint('⚠️ User document does not exist in users collection for ${firebaseUser.uid}');
+      debugPrint('🔍 Checking drivers collection...');
       
+      // Check if this is a driver account
+      final driverDoc = await _firestore
+          .collection('drivers')
+          .doc(firebaseUser.uid)
+          .get()
+          .timeout(const Duration(seconds: 10));
+      
+      if (driverDoc.exists) {
+        debugPrint('✅ Found driver document!');
+        final driverData = driverDoc.data()!;
+        return AppUser(
+          id: driverData['id'] ?? firebaseUser.uid,
+          email: driverData['email'] ?? firebaseUser.email ?? '',
+          name: driverData['name'] ?? 'Driver',
+          phone: driverData['phone'] ?? '',
+          role: UserRole.driver,
+          createdAt: DateTime.now(),
+          profilePictureUrl: driverData['profilePictureUrl'],
+        );
+      }
+      
+      // Neither users nor drivers - create new customer
+      debugPrint('⚠️ Not found in drivers either - creating new customer');
       final newUser = AppUser(
         id: firebaseUser.uid,
         email: firebaseUser.email ?? '',
