@@ -180,71 +180,58 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildLocationHeader(ThemeData theme, AppLocalizations l10n) {
     final locationState = ref.watch(locationProvider);
-    final currentUser = ref.watch(currentUserProvider).value;
 
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Icon(
-                AppIcons.locationActive,
-                color: AppColors.primary,
-                size: 24,
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () async {
-                     final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const LocationPickerScreen()),
-                    );
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Icon(
+            AppIcons.locationActive,
+            color: AppColors.primary,
+            size: 24,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: GestureDetector(
+              onTap: () async {
+                 final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LocationPickerScreen()),
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.deliveringTo,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: AppColors.slate,
+                    ),
+                  ),
+                  Row(
                     children: [
-                      Text(
-                        l10n.deliveringTo,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: AppColors.slate,
+                      Flexible(
+                        child: Text(
+                          locationState.address, 
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: Text(
-                              locationState.address, 
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Icon(
-                            AppIcons.arrowDown,
-                            color: theme.textTheme.bodyLarge?.color,
-                            size: 20,
-                          ),
-                        ],
+                      const SizedBox(width: 4),
+                      Icon(
+                        AppIcons.arrowDown,
+                        color: theme.textTheme.bodyLarge?.color,
+                        size: 20,
                       ),
                     ],
                   ),
-                ),
+                ],
               ),
-              // Rest of icons...
-            ],
+            ),
           ),
-        ),
-        // Guest banner
-        if (currentUser?.isGuest == true)
-          _buildGuestBanner(theme, l10n),
-      ],
-    );
-  }
           // Notification icon
           GestureDetector(
             onTap: () {
@@ -617,64 +604,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             const SizedBox(height: 16),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildGuestBanner(ThemeData theme, AppLocalizations l10n) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.primary.withOpacity(0.1),
-            AppColors.richGold.withOpacity(0.05),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppColors.primary.withOpacity(0.3),
-          width: 1,
-        ),
-      ),
-      child: Row(
-        children: [
-          Icon(
-            Icons.person_outline,
-            color: AppColors.primary,
-            size: 20,
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Browsing as Guest',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
-                  ),
-                ),
-                Text(
-                  'Login to place orders and track deliveries',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.textTheme.bodySmall?.color?.withOpacity(0.7),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          TextButton(
-            onPressed: () => context.go('/auth/login'),
-            style: TextButton.styleFrom(
-              foregroundColor: AppColors.primary,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            ),
-            child: const Text('Login'),
-          ),
-        ],
       ),
     );
   }
