@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:ui' as ui;
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,6 +11,8 @@ import 'package:darna/features/order/domain/entities/order.dart';
 import 'package:darna/features/order/presentation/providers/order_tracking_provider.dart';
 import 'package:darna/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:darna/features/delivery/presentation/providers/delivery_providers.dart';
+import 'package:darna/features/delivery/data/services/route_service.dart';
 
 class OrderTrackingScreen extends ConsumerStatefulWidget {
   final OrderEntity order;
@@ -19,39 +24,138 @@ class OrderTrackingScreen extends ConsumerStatefulWidget {
 
 class _OrderTrackingScreenState extends ConsumerState<OrderTrackingScreen> {
   final Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController? _mapController;
   
-  // Mock Route
-  static const LatLng _restaurantLocation = LatLng(33.5731, -7.5898); // Casablanca
+  // Real Location: Fes City Center (Instance variable for Hot Reload updates)
+  final LatLng _restaurantLocation = const LatLng(34.0331, -5.0003); 
+  
   LatLng? _userLocation;
   Set<Marker> _markers = {};
   Set<Polyline> _polylines = {};
+  BitmapDescriptor? _driverIcon;
+  List<LatLng> _routePoints = [];
+  bool _isLoadingRoute = false;
+  double _currentZoom = 14.0;
 
   @override
   void initState() {
     super.initState();
+    _loadDriverIcon();
     _parseUserLocation();
   }
 
+  // Calculate icon size based on zoom level (12-18 typical range)
+  double _getIconSize() {
+    // Base size 85px, scales with zoom
+    // Zoom 12: 65px, Zoom 14: 85px, Zoom 16: 105px, Zoom 18: 125px
+    final size = 65 + (_currentZoom - 12) * 10;
+    return size.clamp(65.0, 125.0);
+  }
+
+  Future<void> _loadDriverIcon() async {
+    try {
+      final size = _getIconSize();
+      
+      // Load the image asset
+      final ByteData data = await rootBundle.load('assets/images/navigation/scooter_marker.png');
+      final Uint8List bytes = data.buffer.asUint8List();
+      
+      // Decode and resize the image
+      final ui.Codec codec = await ui.instantiateImageCodec(
+        bytes,
+        targetWidth: size.toInt(),
+        targetHeight: size.toInt(),
+      );
+      final ui.FrameInfo frameInfo = await codec.getNextFrame();
+      final ui.Image image = frameInfo.image;
+      
+      // Convert back to bytes
+      final ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      final Uint8List resizedBytes = byteData!.buffer.asUint8List();
+      
+      // Create bitmap descriptor from resized bytes
+      final icon = BitmapDescriptor.fromBytes(resizedBytes);
+      
+      setState(() {
+        _driverIcon = icon;
+      });
+      if (mounted) _updateMarkers(widget.order); 
+    } catch (e) {
+      debugPrint('Error loading driver icon: $e');
+    }
+  }
+
+  Future<void> _fetchRoute(LatLng driverPos, LatLng destination) async {
+    if (_isLoadingRoute) return;
+    
+    setState(() => _isLoadingRoute = true);
+    
+    try {
+      debugPrint('📍 Requesting Route: $driverPos -> $destination');
+      final routeService = ref.read(routeServiceProvider);
+      final navData = await routeService.getRoute(driverPos, destination);
+      
+      if (!mounted) return;
+
+      if (navData != null) {
+        debugPrint('✅ Route Received: ${navData.polylinePoints.length} pts');
+        setState(() {
+          _routePoints = navData.polylinePoints;
+          _isLoadingRoute = false;
+          _updateMarkers(widget.order); 
+        });
+      } else {
+        debugPrint('❌ Route Service returned NULL');
+        ScaffoldMessenger.of(context).showSnackBar(
+           const SnackBar(content: Text('Failed to load route (Service Error)')),
+        );
+        setState(() => _isLoadingRoute = false);
+      }
+    } catch (e) {
+      debugPrint('❌ Route Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(content: Text('Route Error: $e')),
+      );
+      setState(() => _isLoadingRoute = false);
+    }
+  }
+
   void _parseUserLocation() {
+    debugPrint('🏠 Parsing delivery address: "${widget.order.deliveryAddress}"');
+    
     try {
       if (widget.order.deliveryAddress.contains(',')) {
         final parts = widget.order.deliveryAddress.split(',');
+        debugPrint('📍 Split into ${parts.length} parts: $parts');
+        
         if (parts.length >= 2) {
           final lat = double.tryParse(parts[0].trim());
           final lng = double.tryParse(parts[1].trim());
+          
+          debugPrint('📍 Parsed: lat=$lat, lng=$lng');
+          
           if (lat != null && lng != null) {
             _userLocation = LatLng(lat, lng);
+            debugPrint('✅ User location SET to: $_userLocation');
+            _updateMarkers(widget.order);
+            return;
           }
         }
       }
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('❌ Error parsing location: $e');
+    }
 
-    _userLocation ??= const LatLng(33.5831, -7.5998); // Nearby default
+    // Fallback: Use a location visibly different from restaurant (2km SE)
+    _userLocation = const LatLng(34.0200, -4.9900);
+    debugPrint('⚠️ Using FALLBACK location: $_userLocation (Restaurant: $_restaurantLocation)');
     _updateMarkers(widget.order);
   }
 
   void _updateMarkers(OrderEntity order) {
     if (!mounted) return;
+    
+    debugPrint('🗺️ Updating markers - UserLoc: $_userLocation, RestaurantLoc: $_restaurantLocation');
     
     final markers = <Marker>{
       Marker(
@@ -63,36 +167,59 @@ class _OrderTrackingScreenState extends ConsumerState<OrderTrackingScreen> {
       Marker(
         markerId: const MarkerId('customer'),
         position: _userLocation!,
-        infoWindow: const InfoWindow(title: 'Delivery Address'),
+        infoWindow: const InfoWindow(title: 'Your Delivery Address'),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
       ),
     };
+    
+    debugPrint('✅ Created ${markers.length} base markers (restaurant + customer)');
 
-    // Add Driver Marker if location exists and order is picked up
+    // Add Driver Marker if location exists
+    // Logic: Show driver if they are assigned and location is available
+    debugPrint('📍 Order Status: ${order.status}, DriverLoc: ${order.driverLocation}');
+    
     if (order.driverLocation != null && 
-       (order.status == OrderStatus.pickedUp)) {
+       (order.status == OrderStatus.pickedUp || order.status == OrderStatus.preparing)) {
+      
+      debugPrint('🟢 Real Driver Location Loop');
       markers.add(
         Marker(
           markerId: const MarkerId('driver'),
           position: order.driverLocation!,
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+          icon: _driverIcon ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
           infoWindow: const InfoWindow(title: 'Driver'),
-          rotation: 0, // We could pass heading if available
+          rotation: 0, 
+          anchor: const Offset(0.5, 0.5),
+          zIndex: 2, 
         ),
       );
+      
+      if (_routePoints.isEmpty && _userLocation != null) {
+         debugPrint('🚀 Triggering _fetchRoute from REAL location');
+         _fetchRoute(order.driverLocation!, _userLocation!);
+      }
     } else if (order.status == OrderStatus.pickedUp) {
-        // Fallback mock driver location if real location missing but status is out
+        debugPrint('🟡 Fallback Mock Location Loop');
+        // Fallback mock driver location
+        final fallbackPos = LatLng(
+          (_restaurantLocation.latitude + _userLocation!.latitude) / 2,
+          (_restaurantLocation.longitude + _userLocation!.longitude) / 2,
+        );
+        
         markers.add(
         Marker(
           markerId: const MarkerId('driver'),
-          position: LatLng(
-              (_restaurantLocation.latitude + _userLocation!.latitude) / 2,
-              (_restaurantLocation.longitude + _userLocation!.longitude) / 2,
-            ),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
+          position: fallbackPos,
+          icon: _driverIcon ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueCyan),
           infoWindow: const InfoWindow(title: 'Driver'),
+          anchor: const Offset(0.5, 0.5),
         ),
       );
+      
+      if (_routePoints.isEmpty && _userLocation != null) {
+         debugPrint('🚀 Triggering _fetchRoute from FALLBACK location');
+         _fetchRoute(fallbackPos, _userLocation!);
+      }
     }
 
     // Determine route start point
@@ -105,12 +232,31 @@ class _OrderTrackingScreenState extends ConsumerState<OrderTrackingScreen> {
 
     setState(() {
       _markers = markers;
+      
+      // Trace route logic
+      // Note: OSRM route might be failing or empty
+      debugPrint('🗺️ Updating Polylines. Points available: ${_routePoints.length}');
+      
+      final points = _routePoints.isNotEmpty 
+          ? _routePoints 
+          : [routeStart!, _userLocation!];
+      
+      if (_routePoints.isEmpty) {
+        debugPrint('⚠️ Falling back to straight line route');
+      } else {
+        debugPrint('✅ Using fetched route with ${_routePoints.length} points');
+      }
+
       _polylines = {
         Polyline(
           polylineId: const PolylineId('route'),
-          points: [routeStart!, _userLocation!],
-          color: AppColors.deepTeal,
+          points: points,
+          color: AppColors.primary,
           width: 5,
+          jointType: JointType.round,
+          startCap: Cap.roundCap,
+          endCap: Cap.roundCap,
+          geodesic: true, 
         ),
       };
     });
@@ -122,8 +268,24 @@ class _OrderTrackingScreenState extends ConsumerState<OrderTrackingScreen> {
   }
 
   Future<void> _animateToDriver(LatLng pos) async {
-      final controller = await _controller.future;
+    final controller = await _controller.future;
+    
+    // If we have both driver and user location, fit them both in view
+    if (_userLocation != null) {
+      final bounds = LatLngBounds(
+        southwest: LatLng(
+          pos.latitude < _userLocation!.latitude ? pos.latitude : _userLocation!.latitude,
+          pos.longitude < _userLocation!.longitude ? pos.longitude : _userLocation!.longitude,
+        ),
+        northeast: LatLng(
+          pos.latitude > _userLocation!.latitude ? pos.latitude : _userLocation!.latitude,
+          pos.longitude > _userLocation!.longitude ? pos.longitude : _userLocation!.longitude,
+        ),
+      );
+      controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 100));
+    } else {
       controller.animateCamera(CameraUpdate.newLatLng(pos));
+    }
   }
 
   @override
@@ -166,16 +328,54 @@ class _OrderTrackingScreenState extends ConsumerState<OrderTrackingScreen> {
           GoogleMap(
             mapType: MapType.normal,
             initialCameraPosition: CameraPosition(
-              target: _restaurantLocation,
-              zoom: 13,
+              target: _userLocation ?? _restaurantLocation, // Center on client location
+              zoom: 14,
             ),
             markers: _markers,
             polylines: _polylines,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
+              _mapController = controller;
+            },
+            onCameraMove: (CameraPosition position) {
+              // Update icon size when zoom changes
+              if ((position.zoom - _currentZoom).abs() > 0.5) {
+                _currentZoom = position.zoom;
+                _loadDriverIcon();
+              }
             },
           ),
           
+          // Zoom Controls
+          Positioned(
+            right: 16,
+            bottom: 220,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                FloatingActionButton.small(
+                  heroTag: 'zoom_in',
+                  backgroundColor: theme.colorScheme.surface,
+                  child: Icon(Icons.add, color: theme.colorScheme.onSurface),
+                  onPressed: () async {
+                    final controller = await _controller.future;
+                    controller.animateCamera(CameraUpdate.zoomIn());
+                  },
+                ),
+                const SizedBox(height: 8),
+                FloatingActionButton.small(
+                  heroTag: 'zoom_out',
+                  backgroundColor: theme.colorScheme.surface,
+                  child: Icon(Icons.remove, color: theme.colorScheme.onSurface),
+                  onPressed: () async {
+                    final controller = await _controller.future;
+                    controller.animateCamera(CameraUpdate.zoomOut());
+                  },
+                ),
+              ],
+            ),
+          ),
+
           // Status Bottom Sheet
           Align(
             alignment: Alignment.bottomCenter,

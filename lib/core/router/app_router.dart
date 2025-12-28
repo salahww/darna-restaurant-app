@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:darna/features/product/presentation/screens/all_products_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:darna/features/auth/presentation/screens/splash_screen.dart';
 import 'package:darna/features/auth/presentation/screens/onboarding_screen.dart';
@@ -133,6 +134,15 @@ final appRouter = GoRouter(
       pageBuilder: (context, state) => PageTransitions.slideUp(
         key: state.pageKey,
         child: const AddDriverScreen(),
+      ),
+    ),
+    
+    // All Products
+    GoRoute(
+      path: '/products',
+      pageBuilder: (context, state) => PageTransitions.slideRight(
+        key: state.pageKey,
+        child: const AllProductsScreen(),
       ),
     ),
   ],

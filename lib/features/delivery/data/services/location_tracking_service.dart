@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -93,40 +94,39 @@ class LocationTrackingService {
 
       // 1. Update Driver Document
       // We also update 'lastUpdated' to detect stale drivers
+      // 1. Fetch driver data to get activeOrderId
+      final driverDoc = await driverRef.get();
+      if (!driverDoc.exists) return;
+
+      final data = driverDoc.data();
+      final activeOrderId = data?['activeOrderId'] as String?;
+
+      final locationMap = {
+        'latitude': position.latitude,
+        'longitude': position.longitude,
+      };
+
+      // 2. Update Driver Document
       await driverRef.update({
-        'currentLocation': {
-          'latitude': position.latitude,
-          'longitude': position.longitude,
-        },
+        'currentLocation': locationMap,
         'heading': position.heading,
         'locationUpdatedAt': FieldValue.serverTimestamp(),
       });
+      debugPrint('📍 Driver doc updated: $driverId at $locationMap');
 
-      // 2. Check for active order and update it too (optional but requested in plan)
-      // Reading the driver doc to get activeOrderId every time might be expensive/slow.
-      // Optimisation: We could assume the UI handles the "State" of active order, 
-      // but the background service usually runs independently.
-      // For now, let's just do a quick check via transaction or just a get.
-      // A lighter way is to just query orders where driverId == driverId AND status == 'outForDelivery'
-      final activeOrdersQuery = await _firestore
-          .collection('orders')
-          .where('driverId', isEqualTo: driverId)
-          .where('status', isEqualTo: 'outForDelivery') // Only update if out for delivery
-          .limit(1)
-          .get();
-
-      if (activeOrdersQuery.docs.isNotEmpty) {
-        final orderDoc = activeOrdersQuery.docs.first;
-        await orderDoc.reference.update({
-          'driverLocation': {
-            'latitude': position.latitude,
-            'longitude': position.longitude,
-          },
+      // 3. If Driver has an active order, update the Order document too
+      // This allows the Client to track the driver via the Order stream
+      if (activeOrderId != null && activeOrderId.isNotEmpty) {
+        await _firestore.collection('orders').doc(activeOrderId).update({
+          'driverLocation': locationMap,
         });
+        debugPrint('✅ Order doc updated: $activeOrderId with driverLocation=$locationMap');
+      } else {
+        debugPrint('⚠️ No activeOrderId - driver location NOT synced to order');
       }
 
     } catch (e) {
-      // print('Error updating location: $e'); // Use a logger in production
+      debugPrint('Error updating location: $e');
     }
   }
 }

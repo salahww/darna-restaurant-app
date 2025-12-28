@@ -212,7 +212,7 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
               Text(
                 label,
                 style: TextStyle(
-                  color: AppColors.deepTeal,
+                  color: AppColors.richGold,
                   fontWeight: FontWeight.w600,
                   fontSize: 10,
                 ),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,45 +19,75 @@ class AdminAuthService {
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   /// Get current user with role
-  Future<AppUser?> getCurrentUser() async {
-    final firebaseUser = _auth.currentUser;
-    if (firebaseUser == null) return null;
+Future<AppUser?> getCurrentUser() async {
+  final firebaseUser = _auth.currentUser;
+  if (firebaseUser == null) return null;
 
-    try {
-      final userDoc = await _firestore.collection('users').doc(firebaseUser.uid).get();
-      
-      if (!userDoc.exists) {
-        debugPrint('⚠️ User document does not exist for ${firebaseUser.uid}');
-        
-        // Check if this is an anonymous/guest user
-        final isAnonymous = firebaseUser.isAnonymous;
-        
-        final newUser = AppUser(
-          id: firebaseUser.uid,
-          email: firebaseUser.email ?? (isAnonymous ? 'guest@darna.com' : ''),
-          name: firebaseUser.displayName ?? (isAnonymous ? 'Guest' : 'User'),
-          phone: firebaseUser.phoneNumber ?? '',
-          role: isAnonymous ? UserRole.guest : UserRole.customer,
-          createdAt: DateTime.now(),
-        );
-        
-        await _firestore.collection('users').doc(firebaseUser.uid).set(newUser.toJson());
-        return newUser;
-      }
-
-      final userData = userDoc.data()!;
-      debugPrint('📄 User document data: $userData');
-      debugPrint('👤 Role from Firestore: ${userData['role']}');
-      
-      final user = AppUser.fromJson(userData);
-      debugPrint('✅ Parsed user role: ${user.role.name}');
-      
-      return user;
-    } catch (e) {
-      debugPrint('❌ Error getting current user: $e');
-      return null;
+  try {
+    // Quick return for anonymous/guest users - skip Firestore read
+    if (firebaseUser.isAnonymous) {
+      debugPrint('👤 Anonymous user detected - returning guest immediately');
+      return AppUser(
+        id: firebaseUser.uid,
+        email: 'guest@darna.com',
+        name: 'Guest',
+        phone: '',
+        role: UserRole.guest,
+        createdAt: DateTime.now(),
+      );
     }
+    
+    // Add timeout to prevent infinite hanging
+    final userDoc = await _firestore
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .get()
+        .timeout(
+          const Duration(seconds: 10),
+          onTimeout: () {
+            debugPrint('⚠️ Firestore timeout - returning default user');
+            throw TimeoutException('Firestore read timed out');
+          },
+        );
+    
+    if (!userDoc.exists) {
+      debugPrint('⚠️ User document does not exist for ${firebaseUser.uid}');
+      
+      final newUser = AppUser(
+        id: firebaseUser.uid,
+        email: firebaseUser.email ?? '',
+        name: firebaseUser.displayName ?? 'User',
+        phone: firebaseUser.phoneNumber ?? '',
+        role: UserRole.customer,
+        createdAt: DateTime.now(),
+      );
+      
+      // Create user doc in background - don't wait
+      _firestore.collection('users').doc(firebaseUser.uid).set(newUser.toJson());
+      return newUser;
+    }
+
+    final userData = userDoc.data()!;
+    debugPrint('📄 User document data: $userData');
+    debugPrint('👤 Role from Firestore: ${userData['role']}');
+    
+    final user = AppUser.fromJson(userData);
+    debugPrint('✅ Parsed user role: ${user.role.name}');
+    
+    return user;
+  } catch (e) {
+    debugPrint('❌ Error getting current user: $e');
+    // Return a default user on error to prevent infinite loading
+    return AppUser(
+      id: firebaseUser.uid,
+      email: firebaseUser.email ?? 'guest@darna.com',
+      name: firebaseUser.displayName ?? 'Guest',
+      phone: '',
+      role: firebaseUser.isAnonymous ? UserRole.guest : UserRole.customer,
+      createdAt: DateTime.now(),
+    );
   }
+}
 
   /// Check if current user is admin
   Future<bool> isAdmin() async {

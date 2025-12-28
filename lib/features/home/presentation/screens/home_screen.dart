@@ -376,7 +376,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _buildCategoriesSection(ThemeData theme, AppLocalizations l10n) {
     return Column(
       children: [
-        _buildSectionHeader(theme, l10n.categories, () {}, l10n),
+        _buildSectionHeader(theme, l10n.categories, null, l10n, showSeeAll: false),
         SizedBox(
           height: 100,
           child: ListView.builder(
@@ -473,7 +473,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
-  Widget _buildSectionHeader(ThemeData theme, String title, VoidCallback onSeeAll, AppLocalizations l10n) {
+  Widget _buildSectionHeader(ThemeData theme, String title, VoidCallback? onSeeAll, AppLocalizations l10n, {bool showSeeAll = true}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
       child: Row(
@@ -485,13 +485,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          TextButton(
-            onPressed: onSeeAll,
-            child: Text(
-              l10n.seeAll,
-              style: TextStyle(color: AppColors.richGold),
+          if (showSeeAll && onSeeAll != null)
+            TextButton(
+              onPressed: onSeeAll,
+              child: Text(
+                l10n.seeAll,
+                style: TextStyle(color: AppColors.richGold),
+              ),
             ),
-          ),
         ],
       ),
     );

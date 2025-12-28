@@ -265,23 +265,30 @@ class FirestoreDriverRepository implements DriverRepository {
   @override
   Future<Either<Failure, List<Driver>>> getAvailableDrivers() async {
     try {
+      print('🔍 Fetching available drivers...');
+      // Simplification: Query only for available drivers. 
+      // We trust 'isAvailable' flag. If activeOrderId is stale, this will allow overwriting it.
       final querySnapshot = await _firestore
           .collection('drivers')
           .where('isAvailable', isEqualTo: true)
-          .where('activeOrderId', isNull: true)
           .get();
+
+      print('🔍 Found ${querySnapshot.docs.length} drivers with isAvailable=true');
 
       final drivers = querySnapshot.docs
           .map((doc) {
               final data = doc.data();
               // Ensure ID is included if it's missing in fields
               if (data['id'] == null) data['id'] = doc.id;
+              print('👤 Driver found: ${data['name']} (ID: ${data['id']}), activeOrderId: ${data['activeOrderId']}');
               return Driver.fromJson(data);
           })
           .toList();
 
+      print('✅ Returning ${drivers.length} available drivers');
       return Right(drivers);
     } catch (e) {
+      print('❌ Error fetching available drivers: $e');
       return Left(ServerFailure(e.toString()));
     }
   }

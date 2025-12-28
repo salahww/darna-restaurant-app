@@ -282,14 +282,14 @@ class _LocationPickerScreenState extends ConsumerState<LocationPickerScreen> {
                     child: ElevatedButton(
                       onPressed: _confirmLocation,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.richGold,
+                        backgroundColor: AppColors.primary,
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       ),
                       child: const Text(
                         'Confirm Location',
                         style: TextStyle(
-                          color: AppColors.charcoal,
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),

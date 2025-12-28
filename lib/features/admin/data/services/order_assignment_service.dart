@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:darna/features/delivery/domain/repositories/driver_repository.dart';
 import 'package:darna/features/delivery/data/repositories/firestore_driver_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:darna/features/delivery/domain/entities/driver.dart';
 import 'dart:math';
 
 /// Service for automatic order assignment to drivers
@@ -32,14 +33,21 @@ class OrderAssignmentService {
       final customerId = orderData['customerId'] as String? ?? 'unknown_customer';
       
       // Get available drivers
-      final driversSnapshot = await _firestore
-          .collection('drivers')
-          .where('isAvailable', isEqualTo: true)
-          .where('activeOrderId', isNull: true)
-          .get();
+      // Get available drivers via Repository to ensure consistent logic
+      final result = await _driverRepository.getAvailableDrivers();
+      
+      final List<Driver> availableDrivers = result.fold(
+        (failure) {
+          debugPrint('❌ Auto-assign failed to fetch drivers: ${failure.message}');
+          return [];
+        },
+        (drivers) => drivers,
+      );
 
-      if (driversSnapshot.docs.isEmpty) {
-        debugPrint('No available drivers found');
+      print('🤖 Auto-Assign found ${availableDrivers.length} candidate drivers');
+
+      if (availableDrivers.isEmpty) {
+        debugPrint('No available drivers found for auto-assign');
         return false;
       }
 
@@ -48,36 +56,32 @@ class OrderAssignmentService {
       String? driverName;
       double minDistance = double.infinity;
 
-      for (final doc in driversSnapshot.docs) {
-        final data = doc.data();
-        final location = data['currentLocation'];
+      for (final driver in availableDrivers) {
+        final location = driver.currentLocation;
         
         if (location != null) {
-          final driverLocation = LatLng(
-            (location['latitude'] as num).toDouble(),
-            (location['longitude'] as num).toDouble(),
-          );
+          final driverLocation = location; // is already LatLng
           
           final distance = _calculateDistance(restaurantLocation, driverLocation);
           
           if (distance < minDistance) {
             minDistance = distance;
-            nearestDriverId = doc.id;
-            driverName = data['name'] as String?;
+            nearestDriverId = driver.id;
+            driverName = driver.name;
           }
         }
       }
 
       // If no driver has location, just pick the first one
       if (nearestDriverId == null) {
-        nearestDriverId = driversSnapshot.docs.first.id;
-        driverName = driversSnapshot.docs.first.data()['name'] as String?;
+        nearestDriverId = availableDrivers.first.id;
+        driverName = availableDrivers.first.name;
       }
 
       // Assign order to driver
-      final result = await _driverRepository.acceptOrder(nearestDriverId, orderId);
+      final assignmentResult = await _driverRepository.acceptOrder(nearestDriverId, orderId);
       
-      return result.fold(
+      return assignmentResult.fold(
         (failure) {
           debugPrint('Failed to assign driver: ${failure.message}');
           return false;
