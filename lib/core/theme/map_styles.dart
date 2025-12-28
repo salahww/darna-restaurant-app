@@ -4,7 +4,7 @@
 class MapStyles {
   /// High Contrast Day Style
   /// - Muted background to make route stand out
-  /// - Simplified labels
+  /// - Visible road labels
   /// - Hidden POIs and transit
   static const String dayStyle = '''[
     {
@@ -20,7 +20,12 @@ class MapStyles {
     {
       "featureType": "road",
       "elementType": "labels.text.fill",
-      "stylers": [{"color": "#333333"}, {"weight": 2}]
+      "stylers": [{"color": "#1a1a1a"}, {"visibility": "on"}]
+    },
+    {
+      "featureType": "road",
+      "elementType": "labels.text.stroke",
+      "stylers": [{"color": "#ffffff"}, {"visibility": "on"}, {"weight": 3}]
     },
     {
       "featureType": "road.highway",

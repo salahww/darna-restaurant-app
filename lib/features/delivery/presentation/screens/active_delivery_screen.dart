@@ -503,22 +503,64 @@ class _ActiveDeliveryScreenState extends ConsumerState<ActiveDeliveryScreen> {
   BitmapDescriptor? _scooterMarker;
   double _driverHeading = 0.0;
 
-  /// Load custom scooter marker from SVG asset
+  /// Load custom scooter marker from PNG asset
   Future<void> _loadScooterMarker() async {
     try {
-      // Try to load PNG first (more reliable)
+      // Load PNG directly (SVG conversion has API issues)
       _scooterMarker = await BitmapDescriptor.asset(
-        const ImageConfiguration(size: Size(64, 64)),
+        const ImageConfiguration(size: Size(80, 80)),
         'assets/images/navigation/scooter_marker.png',
       );
-      debugPrint('🛵 ✅ Scooter PNG marker loaded');
+      debugPrint('🛵 ✅ Scooter marker loaded from PNG!');
       if (mounted) setState(() {});
     } catch (e) {
-      debugPrint('🛵 ⚠️ PNG failed, using default red marker: $e');
+      debugPrint('🛵 ❌ PNG loading failed: $e');
       // Fallback to default red marker
       _scooterMarker = BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
       if (mounted) setState(() {});
     }
+  }
+
+  /// Get remaining route from driver's current position
+  /// Trims the traveled portion so only the ahead route is shown
+  List<LatLng> _getRemainingRoute(LatLng driverPosition) {
+    if (_routePoints.isEmpty) return [];
+    
+    // Find the closest point on the route to the driver
+    int closestIndex = 0;
+    double minDistance = double.infinity;
+    
+    for (int i = 0; i < _routePoints.length; i++) {
+      final distance = Geolocator.distanceBetween(
+        driverPosition.latitude,
+        driverPosition.longitude,
+        _routePoints[i].latitude,
+        _routePoints[i].longitude,
+      );
+      
+      if (distance < minDistance) {
+        minDistance = distance;
+        closestIndex = i;
+      }
+    }
+    
+    // Only trim if driver is within 100m of the route
+    // Otherwise show full route (driver may be off-route)
+    if (minDistance > 100) {
+      return _routePoints;
+    }
+    
+    // Skip ahead by 1 point to ensure we don't show the point behind us
+    final startIndex = (closestIndex + 1).clamp(0, _routePoints.length - 1);
+    
+    // Return route from next point to end
+    // Add driver's current position as the first point for smooth connection
+    if (startIndex < _routePoints.length) {
+      return [driverPosition, ..._routePoints.sublist(startIndex)];
+    }
+    
+    // Driver is at the end
+    return [driverPosition, _routePoints.last];
   }
 
   /// Calculate zoom level based on current speed
@@ -598,22 +640,25 @@ class _ActiveDeliveryScreenState extends ConsumerState<ActiveDeliveryScreen> {
       print('🗺️ Building map - Route points in state: ${_routePoints.length}');
       
       if (_routePoints.isNotEmpty) {
-        print('🗺️ ✅ Adding polyline with ${_routePoints.length} points');
-        print('🗺️ First point: ${_routePoints.first}');
-        print('🗺️ Last point: ${_routePoints.last}');
+        // Get remaining route from driver's current position
+        final remainingRoute = _getRemainingRoute(driverLoc);
         
-        polylines.add(
-          Polyline(
-            polylineId: const PolylineId('route'),
-            points: _routePoints,
-            color: AppColors.primary,
-            width: 10, // Premium thickness
-            geodesic: true,
-            startCap: Cap.roundCap, // Smooth rounded ends
-            endCap: Cap.roundCap,
-            jointType: JointType.round, // Smooth corners
-          ),
-        );
+        print('🗺️ ✅ Showing route: ${remainingRoute.length} points (trimmed from ${_routePoints.length})');
+        
+        if (remainingRoute.length > 1) {
+          polylines.add(
+            Polyline(
+              polylineId: const PolylineId('route'),
+              points: remainingRoute,
+              color: AppColors.primary,
+              width: 10, // Premium thickness
+              geodesic: true,
+              startCap: Cap.roundCap, // Smooth rounded ends
+              endCap: Cap.roundCap,
+              jointType: JointType.round, // Smooth corners
+            ),
+          );
+        }
       } else {
          print('🗺️ ⚠️ Using fallback straight line');
          // Fallback straight line

@@ -70,7 +70,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final textColor = isDark ? Colors.white : AppColors.primary;
+    final textColor = isDark ? const Color(0xFFE5D9C7) : AppColors.primary;
 
     return Scaffold(
       body: Center(
