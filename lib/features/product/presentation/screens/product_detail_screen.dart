@@ -12,6 +12,8 @@ import 'dart:ui';
 import 'package:darna/core/constants/app_icons.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:darna/core/widgets/login_prompt_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:darna/core/widgets/shimmer_loading.dart';
 
 /// Premium product details screen with customization options
 class ProductDetailScreen extends ConsumerStatefulWidget {
@@ -276,22 +278,23 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
             Hero(
               tag: 'product-${product.id}',
               child: (widget.heroImage ?? product.imageUrl).startsWith('http')
-                  ? Image.network(
-                      widget.heroImage ?? product.imageUrl,
+                  ? CachedNetworkImage(
+                      imageUrl: widget.heroImage ?? product.imageUrl,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: AppColors.deepTeal.withValues(alpha: 0.1),
-                          child: Icon(AppIcons.food, size: 64, color: AppColors.deepTeal),
-                        );
-                      },
+                      placeholder: (context, url) => const ShimmerLoading(
+                        child: _ImagePlaceholder(),
+                      ),
+                      errorWidget: (context, url, error) => Container(
+                        color: AppColors.deepTeal.withOpacity(0.1),
+                        child: Icon(AppIcons.food, size: 64, color: AppColors.deepTeal),
+                      ),
                     )
                   : Image.asset(
                       widget.heroImage ?? product.imageUrl,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
-                          color: AppColors.deepTeal.withValues(alpha: 0.1),
+                          color: AppColors.deepTeal.withOpacity(0.1),
                           child: Icon(AppIcons.food, size: 64, color: AppColors.deepTeal),
                         );
                       },
