@@ -6,6 +6,7 @@ import 'package:darna/core/widgets/darna_logo.dart';
 import 'package:darna/core/theme/app_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 /// Splash screen that shows the Darna logo and checks authentication state
 /// Automatically navigates to Home if logged in, or Onboarding if not
@@ -20,17 +21,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _checkAuthAndNavigate();
+    // Animation completion will trigger navigation
   }
 
   Future<void> _checkAuthAndNavigate() async {
-    // Show splash screen for at least 2 seconds
-    await Future.delayed(const Duration(seconds: 2));
-    
     if (!mounted) return;
     
     // Check if user is logged in
     final user = FirebaseAuth.instance.currentUser;
+    
+    // Brief pause after animation for readability
+    await Future.delayed(const Duration(milliseconds: 500));
     
     if (user != null) {
       // User is logged in -> Navigate to Home
@@ -62,27 +63,25 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  'OUR HOME IS YOUR HOME',
-                  style: GoogleFonts.syncopate(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 4.0,
-                    color: Theme.of(context).brightness == Brightness.dark 
-                        ? Colors.white 
-                        : AppColors.primary,
-                  ),
-                ).animate()
-                 .fadeIn(duration: 1200.ms, curve: Curves.easeOut)
-                 .shimmer(
-                   duration: 2000.ms, 
-                   color: Theme.of(context).brightness == Brightness.dark 
-                       ? Colors.white.withOpacity(0.5) 
-                       : AppColors.primary.withOpacity(0.5),
-                   angle: 0,
-                 ),
+              child: DefaultTextStyle(
+                style: GoogleFonts.playwriteUsTrad(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  color: Theme.of(context).brightness == Brightness.dark 
+                      ? Colors.white 
+                      : AppColors.primary,
+                ),
+                child: AnimatedTextKit(
+                  animatedTexts: [
+                    TypewriterAnimatedText(
+                      'Our Home is your Home',
+                      speed: const Duration(milliseconds: 100),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                  isRepeatingAnimation: false,
+                  onFinished: _checkAuthAndNavigate,
+                ),
               ),
             ),
             

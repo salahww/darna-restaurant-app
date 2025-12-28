@@ -261,7 +261,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset(
-                          'assets/images/google_logo_final.png',
+                          'assets/images/google_logo.png',
                           height: 24,
                         ),
                         const SizedBox(width: 12),
