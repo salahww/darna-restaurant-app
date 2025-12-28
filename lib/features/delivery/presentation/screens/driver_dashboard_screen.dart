@@ -91,6 +91,9 @@ class _DriverDashboardScreenState extends ConsumerState<DriverDashboardScreen> {
             icon: const Icon(Icons.logout),
             onPressed: () async {
                await FirebaseAuth.instance.signOut();
+               if (context.mounted) {
+                 context.go('/auth/login');
+               }
             },
           ),
         ],

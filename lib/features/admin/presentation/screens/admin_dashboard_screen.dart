@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:go_router/go_router.dart';
 import 'package:darna/core/theme/app_theme.dart';
 import 'package:darna/features/admin/presentation/screens/product_management_screen.dart';
 import 'package:darna/features/admin/presentation/screens/driver_management_screen.dart';
 import 'package:darna/features/admin/presentation/widgets/live_orders_widget.dart';
 import 'package:darna/features/admin/presentation/widgets/admin_stats_widget.dart';
 import 'package:darna/l10n/app_localizations.dart';
-import 'package:darna/features/home/presentation/screens/main_navigation_screen.dart';
 
 /// Main admin dashboard screen
 class AdminDashboardScreen extends ConsumerStatefulWidget {
@@ -82,14 +82,9 @@ class _AdminDashboardScreenState extends ConsumerState<AdminDashboardScreen> {
           IconButton(
             icon: Icon(Icons.logout, color: theme.colorScheme.onSurface),
             onPressed: () async {
-              // Sign out from Firebase
               await FirebaseAuth.instance.signOut();
               if (context.mounted) {
-                // Navigate back to main screen (will show login)
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
-                  (route) => false,
-                );
+                context.go('/auth/login');
               }
             },
           ),
