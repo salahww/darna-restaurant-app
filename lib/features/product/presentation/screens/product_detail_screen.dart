@@ -799,6 +799,26 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
       ),
     );
   }
+  }
+}
+
+/// Shimmer placeholder for product image loading
+class _ImagePlaceholder extends StatelessWidget {
+  const _ImagePlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: AppColors.deepTeal.withOpacity(0.05),
+      child: Center(
+        child: Icon(
+          AppIcons.food,
+          size: 80,
+          color: AppColors.deepTeal.withOpacity(0.2),
+        ),
+      ),
+    );
+  }
 }
 
 // Enums for customization
