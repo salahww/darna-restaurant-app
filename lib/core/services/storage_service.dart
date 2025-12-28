@@ -23,14 +23,14 @@ class StorageService {
         quality: 85,
       );
       
-      // Define storage path with .webp extension
-      final storageRef = _storage.ref().child('profile_pictures/$userId/profile.webp');
+      // Define storage path with .jpg extension
+      final storageRef = _storage.ref().child('profile_pictures/$userId/profile.jpg');
       
       // Upload file
       final uploadTask = storageRef.putData(
         webpImage,
         SettableMetadata(
-          contentType: 'image/webp',
+          contentType: 'image/jpeg',
           cacheControl: 'public, max-age=31536000', // Cache for 1 year
         ),
       );
@@ -64,13 +64,13 @@ class StorageService {
       );
       
       // Define storage path
-      final storageRef = _storage.ref().child('product_images/$productId.webp');
+      final storageRef = _storage.ref().child('product_images/$productId.jpg');
       
       // Upload file
       final uploadTask = storageRef.putData(
         webpImage,
         SettableMetadata(
-          contentType: 'image/webp',
+          contentType: 'image/jpeg',
           cacheControl: 'public, max-age=31536000', // Cache for 1 year
         ),
       );
@@ -108,9 +108,9 @@ class StorageService {
   /// Legacy method - redirects to deleteImage
   Future<void> deleteProfilePicture(String imageUrl) => deleteImage(imageUrl);
 
-  /// Convert image to WebP format with compression and resizing
+  /// Convert image to optimized JPEG format with compression and resizing
   /// [maxSize] - Maximum width/height (maintains aspect ratio)
-  /// [quality] - WebP quality (0-100, recommended: 75-85)
+  /// [quality] - JPEG quality (0-100, recommended: 75-85)
   Future<Uint8List> _convertToWebP(
     File imageFile, {
     required int maxSize,
@@ -132,16 +132,16 @@ class StorageService {
         height: image.height > image.width ? maxSize : null,
       );
       
-      // Encode as WebP with specified quality
-      final webp = img.encodeWebP(resized, quality: quality);
+      // Encode as JPEG with specified quality (WebP not available in current package)
+      final compressed = img.encodeJpg(resized, quality: quality);
       
-      final compressionRatio = ((1 - webp.length / bytes.length) * 100).toStringAsFixed(1);
-      debugPrint('📊 WebP conversion: ${bytes.length} → ${webp.length} bytes (-$compressionRatio%)');
+      final compressionRatio = ((1 - compressed.length / bytes.length) * 100).toStringAsFixed(1);
+      debugPrint('📊 JPEG conversion: ${bytes.length} → ${compressed.length} bytes (-$compressionRatio%)');
       
-      return Uint8List.fromList(webp);
+      return Uint8List.fromList(compressed);
     } catch (e) {
-      debugPrint('⚠️ WebP conversion failed, using fallback: $e');
-      // Fallback to JPEG compression if WebP fails
+      debugPrint('⚠️ Image conversion failed, using fallback: $e');
+      // Fallback to original compression if conversion fails
       return await _fallbackCompression(imageFile, maxSize);
     }
   }
