@@ -103,7 +103,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   child: Text(
                     'Our Home is your Home',
                     style: theme.textTheme.titleMedium?.copyWith(
-                      color: Colors.white,
+                      color: theme.brightness == Brightness.dark 
+                          ? Colors.white 
+                          : AppColors.primary,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.5,
                     ),

@@ -73,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     final size = MediaQuery.of(context).size;
     
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Stack(
         children: [
           // Background Pattern
@@ -129,10 +129,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                       child: Text(
                         'Skip',
-                        style: theme.textTheme.labelLarge?.copyWith(
-                          color: AppColors.deepTeal,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      style: theme.textTheme.labelLarge?.copyWith(
+                        color: theme.brightness == Brightness.dark 
+                            ? Colors.white 
+                            : AppColors.deepTeal,
+                        fontWeight: FontWeight.w600,
+                      ),
                       ),
                     ),
                   ),
@@ -236,7 +238,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             page.title,
             style: theme.textTheme.headlineLarge?.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.charcoal,
+              color: theme.brightness == Brightness.dark 
+                  ? Colors.white 
+                  : AppColors.charcoal,
               height: 1.2,
             ),
             textAlign: TextAlign.center,
@@ -248,7 +252,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           Text(
             page.description,
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: AppColors.slate,
+              color: theme.brightness == Brightness.dark 
+                  ? Colors.white70 
+                  : AppColors.slate,
               height: 1.6,
             ),
             textAlign: TextAlign.center,

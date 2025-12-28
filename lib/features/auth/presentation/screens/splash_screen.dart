@@ -58,12 +58,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             
             const SizedBox(height: 24),
             
-            // App tagline
             Text(
               'Our Home is your Home',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: Theme.of(context).brightness == Brightness.dark 
+                    ? Colors.white 
+                    : AppColors.primary,
               ),
             ).animate().fadeIn(delay: 400.ms, duration: 600.ms),
             
