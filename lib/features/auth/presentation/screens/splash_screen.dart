@@ -61,15 +61,24 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
             const SizedBox(height: 12),
             
             Text(
-              'Our Home is your Home',
-              style: GoogleFonts.dancingScript(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
+              'OUR HOME IS YOUR HOME',
+              style: GoogleFonts.syncopate(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 4.0,
                 color: Theme.of(context).brightness == Brightness.dark 
                     ? Colors.white 
                     : AppColors.primary,
               ),
-            ).animate().fadeIn(delay: 400.ms, duration: 600.ms),
+            ).animate()
+             .fadeIn(duration: 1200.ms, curve: Curves.easeOut)
+             .shimmer(
+               duration: 2000.ms, 
+               color: Theme.of(context).brightness == Brightness.dark 
+                   ? Colors.white.withOpacity(0.5) 
+                   : AppColors.primary.withOpacity(0.5),
+               angle: 0,
+             ),
             
             const SizedBox(height: 48),
             
