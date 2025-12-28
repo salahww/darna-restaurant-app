@@ -7,6 +7,7 @@ import 'package:darna/features/admin/data/services/order_assignment_service.dart
 import 'package:darna/features/admin/presentation/providers/order_assignment_provider.dart';
 import 'package:darna/features/admin/presentation/providers/admin_data_providers.dart';
 import 'package:darna/core/services/order_notification_helper.dart';
+import 'package:darna/features/admin/presentation/widgets/driver_assignment_dialog.dart';
 
 /// Order card for admin with assignment controls
 class OrderCardAdmin extends ConsumerWidget {
@@ -194,8 +195,11 @@ class OrderCardAdmin extends ConsumerWidget {
           const SizedBox(width: 12),
           Expanded(
             child: OutlinedButton(
-              onPressed: () async {
-                 await ref.read(orderAssignmentServiceProvider).autoAssignDriver(order.id);
+              onPressed: () {
+                 showDialog(
+                   context: context,
+                   builder: (_) => DriverAssignmentDialog(orderId: order.id),
+                 );
               },
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size.fromHeight(48), // Strict fixed height
@@ -259,8 +263,11 @@ class OrderCardAdmin extends ConsumerWidget {
              SizedBox(
                width: double.infinity,
                child: OutlinedButton(
-                 onPressed: () async {
-                    await ref.read(orderAssignmentServiceProvider).autoAssignDriver(order.id);
+                 onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (_) => DriverAssignmentDialog(orderId: order.id),
+                    );
                  },
                  style: OutlinedButton.styleFrom(
                     fixedSize: const Size.fromHeight(48),

@@ -261,4 +261,28 @@ class FirestoreDriverRepository implements DriverRepository {
       return doc.data()?['isAvailable'] as bool? ?? false;
     });
   }
+
+  @override
+  Future<Either<Failure, List<Driver>>> getAvailableDrivers() async {
+    try {
+      final querySnapshot = await _firestore
+          .collection('drivers')
+          .where('isAvailable', isEqualTo: true)
+          .where('activeOrderId', isNull: true)
+          .get();
+
+      final drivers = querySnapshot.docs
+          .map((doc) {
+              final data = doc.data();
+              // Ensure ID is included if it's missing in fields
+              if (data['id'] == null) data['id'] = doc.id;
+              return Driver.fromJson(data);
+          })
+          .toList();
+
+      return Right(drivers);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

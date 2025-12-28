@@ -42,4 +42,7 @@ abstract class DriverRepository {
 
   /// Stream driver availability
   Stream<bool> streamDriverAvailability(String driverId);
+
+  /// Get list of available drivers
+  Future<Either<Failure, List<Driver>>> getAvailableDrivers();
 }
