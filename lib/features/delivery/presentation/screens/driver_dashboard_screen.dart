@@ -20,9 +20,30 @@ class _DriverDashboardScreenState extends ConsumerState<DriverDashboardScreen> {
   @override
   void initState() {
     super.initState();
-    // Ideally check if already tracking or sync UI with Firestore 'isAvailable'
+    // Sync UI with Firestore 'isAvailable' persistence
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-       // Optional: Restore state from Firestore
+       final driverId = ref.read(currentDriverIdProvider);
+       if (driverId != null) {
+         final result = await ref.read(driverRepositoryProvider).getDriverById(driverId);
+         
+         result.fold(
+           (failure) => debugPrint('Failed to sync driver status: ${failure.message}'),
+           (driver) async {
+             if (mounted) {
+               setState(() {
+                 _isOnline = driver.isAvailable;
+               });
+               
+               // If persistent status is Online, resume tracking if needed
+               if (_isOnline) {
+                 final locationService = ref.read(locationTrackingServiceProvider);
+                 // We don't check if running, just start (it's idempotent or handles it)
+                 await locationService.startTracking();
+               }
+             }
+           },
+         );
+       }
     });
   }
 
