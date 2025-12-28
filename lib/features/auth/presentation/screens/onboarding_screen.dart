@@ -23,13 +23,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     OnboardingPage(
       title: 'Authentic Moroccan Flavors',
       description: 'Experience the rich taste of Tagines, Couscous, and Pastillas prepared with traditional recipes.',
-      icon: AppIcons.tagine,
+      icon: Icons.star_rate_rounded, // Replaced with Moroccan Star as requested
       image: 'assets/images/onboarding/onboarding_1.png', 
     ),
     OnboardingPage(
       title: 'Premium Delivery',
       description: 'Track your order in real-time. From our kitchen to your doorstep, freshness guaranteed.',
-      icon: AppIcons.delivery,
+      icon: Icons.delivery_dining, // Replaced with Delivery Man icon
       image: 'assets/images/onboarding/onboarding_2.png',
     ),
     OnboardingPage(
