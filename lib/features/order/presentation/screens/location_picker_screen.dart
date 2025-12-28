@@ -29,7 +29,18 @@ class _LocationPickerScreenState extends ConsumerState<LocationPickerScreen> {
   @override
   void initState() {
     super.initState();
-    _determinePosition(); // Fire and forget
+    _loadSavedLocation(); // Use saved location immediately (fast!)
+    _determinePosition(); // Update with GPS in background (slow but non-blocking)
+  }
+
+  void _loadSavedLocation() {
+    // Get saved location from provider for instant load
+    final savedLocation = ref.read(locationProvider);
+    if (savedLocation.coordinates != null) {
+      _initialPosition = savedLocation.coordinates!;
+      _cameraPosition = savedLocation.coordinates!;
+      _currentAddress = savedLocation.address;
+    }
   }
 
   Future<void> _determinePosition() async {
