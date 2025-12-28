@@ -194,6 +194,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Widget _buildPage(OnboardingPage page, ThemeData theme) {
+    // Determine branding colors for this specific page
+    final isMoroccanPage = page.title.contains('Authentic');
+    final iconColor = isMoroccanPage ? const Color(0xFF006233) : AppColors.primary;
+    // For Morocco look: Green Star on Red Background (Circle)
+    final circleColor = isMoroccanPage ? const Color(0xFFC1272D) : AppColors.primary;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32.0),
       child: Column(
@@ -208,17 +214,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  AppColors.primary.withOpacity(0.1),
-                  AppColors.primary.withOpacity(0.05),
+                  circleColor.withOpacity(0.1),
+                  circleColor.withOpacity(0.05),
                 ],
               ),
               border: Border.all(
-                color: AppColors.primary.withOpacity(0.2),
+                color: circleColor.withOpacity(0.2),
                 width: 2,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: circleColor.withOpacity(0.1),
                   blurRadius: 30,
                   spreadRadius: 5,
                 ),
@@ -227,10 +233,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: Icon(
               page.icon,
               size: 80,
-              // Use Moroccan Green (#006233) for the star (index 0), default primary for others
-              color: page.title.contains('Authentic') 
-                  ? const Color(0xFF006233) 
-                  : AppColors.primary,
+              color: iconColor,
             ),
           ).animate().scale(duration: 600.ms, curve: Curves.easeOutBack).fadeIn(duration: 600.ms),
           
