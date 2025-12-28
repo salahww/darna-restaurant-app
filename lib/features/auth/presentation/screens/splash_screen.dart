@@ -90,31 +90,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
               child: AnimatedBuilder(
                 animation: _animation,
                 builder: (context, child) {
-                  // Ensure nothing is visible at absolute zero
-                  if (_animation.value == 0.0) {
-                    return const SizedBox.shrink(); 
-                  }
-                  
-                  return ShaderMask(
-                    shaderCallback: (bounds) {
-                      // Sharp edge to prevent ghosting (0.01 feathering)
-                      final double maskVal = _animation.value;
-                      final double featherEn = (maskVal + 0.01).clamp(0.0, 1.0);
-                      
-                      return LinearGradient(
-                        colors: [textColor, textColor, Colors.transparent, Colors.transparent],
-                        stops: [
-                          0.0,
-                          maskVal,
-                          featherEn,
-                          1.0,
-                        ],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        tileMode: TileMode.clamp,
-                      ).createShader(bounds);
-                    },
-                    blendMode: BlendMode.srcIn,
+                  return ClipRect(
+                    clipper: _HorizontalRevealClipper(_animation.value),
                     child: child,
                   );
                 },
@@ -147,5 +124,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with SingleTickerPr
         ),
       ),
     );
+  }
+}
+
+class _HorizontalRevealClipper extends CustomClipper<Rect> {
+  final double progress;
+
+  _HorizontalRevealClipper(this.progress);
+
+  @override
+  Rect getClip(Size size) {
+    return Rect.fromLTWH(0, 0, size.width * progress, size.height);
+  }
+
+  @override
+  bool shouldReclip(_HorizontalRevealClipper oldClipper) {
+    return oldClipper.progress != progress;
   }
 }
