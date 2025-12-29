@@ -48,25 +48,29 @@
 
 <div align="center">
 
-| Splash Screen | Language Selection | Home - Menu |
+| Home Screen | Login | Sign Up |
 |:---:|:---:|:---:|
-| ![Splash](screenshots/photo_1_2025-12-29_16-28-42.jpg) | ![Language](screenshots/photo_2_2025-12-29_16-28-42.jpg) | ![Home](screenshots/photo_3_2025-12-29_16-28-42.jpg) |
+| ![Home](screenshots/home_screen.jpg) | ![Login](screenshots/login.jpg) | ![Signup](screenshots/sign%20up.jpg) |
 
-| Product Details | Customization | Cart |
+| Product Details | Customization | AI Chatbot Assistant |
 |:---:|:---:|:---:|
-| ![Product](screenshots/photo_4_2025-12-29_16-28-42.jpg) | ![Custom](screenshots/photo_5_2025-12-29_16-28-42.jpg) | ![Cart](screenshots/photo_6_2025-12-29_16-28-42.jpg) |
+| ![Product](screenshots/dish%20detail.jpg) | ![Custom](screenshots/dish%20detail%202.jpg) | ![AIBot](screenshots/ai%20chatbot.jpg) |
 
-| Checkout | Order Tracking | Profile |
+| Shopping Cart | Favorites | Profile |
 |:---:|:---:|:---:|
-| ![Checkout](screenshots/photo_7_2025-12-29_16-28-42.jpg) | ![Tracking](screenshots/photo_8_2025-12-29_16-28-42.jpg) | ![Profile](screenshots/photo_9_2025-12-29_16-28-42.jpg) |
+| ![Cart](screenshots/shopping%20cart.jpg) | ![Favorites](screenshots/favorites.jpg) | ![Profile](screenshots/profile.jpg) |
 
-| Edit Profile | Driver Orders | Driver Dashboard |
+| Settings | Driver Dashboard | Driver Orders |
 |:---:|:---:|:---:|
-| ![Edit](screenshots/photo_10_2025-12-29_16-28-42.jpg) | ![Driver Orders](screenshots/photo_11_2025-12-29_16-28-42.jpg) | ![Driver](screenshots/photo_12_2025-12-29_16-28-42.jpg) |
+| ![Settings](screenshots/settings.jpg) | ![Driver](screenshots/driver%20dashboard.jpg) | ![Orders](screenshots/driver%20dashboard%202.jpg) |
 
-| Admin Dashboard | Order Management | Menu Management |
+| Driver Navigation | Admin Dashboard | Admin Products |
 |:---:|:---:|:---:|
-| ![Admin](screenshots/photo_13_2025-12-29_16-28-42.jpg) | ![Orders](screenshots/photo_14_2025-12-29_16-28-42.jpg) | ![Menu](screenshots/photo_15_2025-12-29_16-28-42.jpg) |
+| ![Nav](screenshots/driver%20navigate%20to%20client.jpg) | ![Admin](screenshots/restaurant%20admin.jpg) | ![Products](screenshots/admin%20edit%20products.jpg) |
+
+| Admin Driver Management | Admin Add Product | |
+|:---:|:---:|:---:|
+| ![Drivers](screenshots/admin%20edit%20drivers.jpg) | ![Add](screenshots/admin%20add%20produts.jpg) | |
 
 </div>
 
