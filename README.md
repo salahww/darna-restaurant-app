@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="screenshots/darna official.png" alt="Darna Logo" width="200"/>
+<img src="screenshots/darna_logo.webp" alt="Darna Logo" width="200"/>
 
 # 🍽️ Darna - Premium Moroccan Restaurant App
 
