@@ -48,21 +48,25 @@
 
 <div align="center">
 
-| Onboarding | Home Screen | Product Detail |
+| Splash Screen | Language Selection | Home - Menu |
 |:---:|:---:|:---:|
-| ![Onboarding](screenshots/photo_1_2025-12-29_16-28-42.jpg) | ![Home](screenshots/photo_2_2025-12-29_16-28-42.jpg) | ![Detail](screenshots/photo_3_2025-12-29_16-28-42.jpg) |
+| ![Splash](screenshots/photo_1_2025-12-29_16-28-42.jpg) | ![Language](screenshots/photo_2_2025-12-29_16-28-42.jpg) | ![Home](screenshots/photo_3_2025-12-29_16-28-42.jpg) |
 
-| Cart | Checkout | Order Tracking |
+| Product Details | Customization | Cart |
 |:---:|:---:|:---:|
-| ![Cart](screenshots/photo_4_2025-12-29_16-28-42.jpg) | ![Checkout](screenshots/photo_5_2025-12-29_16-28-42.jpg) | ![Tracking](screenshots/photo_6_2025-12-29_16-28-42.jpg) |
+| ![Product](screenshots/photo_4_2025-12-29_16-28-42.jpg) | ![Custom](screenshots/photo_5_2025-12-29_16-28-42.jpg) | ![Cart](screenshots/photo_6_2025-12-29_16-28-42.jpg) |
 
-| Profile | Favorites | Orders |
+| Checkout | Order Tracking | Profile |
 |:---:|:---:|:---:|
-| ![Profile](screenshots/photo_7_2025-12-29_16-28-42.jpg) | ![Favorites](screenshots/photo_8_2025-12-29_16-28-42.jpg) | ![Orders](screenshots/photo_9_2025-12-29_16-28-42.jpg) |
+| ![Checkout](screenshots/photo_7_2025-12-29_16-28-42.jpg) | ![Tracking](screenshots/photo_8_2025-12-29_16-28-42.jpg) | ![Profile](screenshots/photo_9_2025-12-29_16-28-42.jpg) |
 
-| Driver Dashboard | Admin Dashboard | Analytics |
+| Edit Profile | Driver Orders | Driver Dashboard |
 |:---:|:---:|:---:|
-| ![Driver](screenshots/photo_10_2025-12-29_16-28-42.jpg) | ![Admin](screenshots/photo_11_2025-12-29_16-28-42.jpg) | ![Analytics](screenshots/photo_12_2025-12-29_16-28-42.jpg) |
+| ![Edit](screenshots/photo_10_2025-12-29_16-28-42.jpg) | ![Driver Orders](screenshots/photo_11_2025-12-29_16-28-42.jpg) | ![Driver](screenshots/photo_12_2025-12-29_16-28-42.jpg) |
+
+| Admin Dashboard | Order Management | Menu Management |
+|:---:|:---:|:---:|
+| ![Admin](screenshots/photo_13_2025-12-29_16-28-42.jpg) | ![Orders](screenshots/photo_14_2025-12-29_16-28-42.jpg) | ![Menu](screenshots/photo_15_2025-12-29_16-28-42.jpg) |
 
 </div>
 
