@@ -50,27 +50,27 @@
 
 | Home Screen | Login | Sign Up |
 |:---:|:---:|:---:|
-| ![Home](screenshots/home_screen.jpg) | ![Login](screenshots/login.jpg) | ![Signup](screenshots/sign%20up.jpg) |
+| ![Home](screenshots/01_home_screen.jpg) | ![Login](screenshots/02_login.jpg) | ![Signup](screenshots/03_signup.jpg) |
 
 | Product Details | Customization | AI Chatbot Assistant |
 |:---:|:---:|:---:|
-| ![Product](screenshots/dish%20detail.jpg) | ![Custom](screenshots/dish%20detail%202.jpg) | ![AIBot](screenshots/ai%20chatbot.jpg) |
+| ![Product](screenshots/04_product_detail.jpg) | ![Custom](screenshots/05_product_customization.jpg) | ![AIBot](screenshots/06_ai_chatbot.jpg) |
 
 | Shopping Cart | Favorites | Profile |
 |:---:|:---:|:---:|
-| ![Cart](screenshots/shopping%20cart.jpg) | ![Favorites](screenshots/favorites.jpg) | ![Profile](screenshots/profile.jpg) |
+| ![Cart](screenshots/07_shopping_cart.jpg) | ![Favorites](screenshots/08_favorites.jpg) | ![Profile](screenshots/09_profile.jpg) |
 
 | Settings | Driver Dashboard | Driver Orders |
 |:---:|:---:|:---:|
-| ![Settings](screenshots/settings.jpg) | ![Driver](screenshots/driver%20dashboard.jpg) | ![Orders](screenshots/driver%20dashboard%202.jpg) |
+| ![Settings](screenshots/10_settings.jpg) | ![Driver](screenshots/11_driver_dashboard.jpg) | ![Orders](screenshots/12_driver_orders.jpg) |
 
 | Driver Navigation | Admin Dashboard | Admin Products |
 |:---:|:---:|:---:|
-| ![Nav](screenshots/driver%20navigate%20to%20client.jpg) | ![Admin](screenshots/restaurant%20admin.jpg) | ![Products](screenshots/admin%20edit%20products.jpg) |
+| ![Nav](screenshots/13_driver_navigation.jpg) | ![Admin](screenshots/14_admin_dashboard.jpg) | ![Products](screenshots/15_admin_products.jpg) |
 
 | Admin Driver Management | Admin Add Product | |
 |:---:|:---:|:---:|
-| ![Drivers](screenshots/admin%20edit%20drivers.jpg) | ![Add](screenshots/admin%20add%20produts.jpg) | |
+| ![Drivers](screenshots/16_admin_drivers.jpg) | ![Add](screenshots/17_admin_add_product.jpg) | |
 
 </div>
 
