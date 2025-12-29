@@ -215,12 +215,6 @@ This project was developed by:
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- Firebase for backend infrastructure
-- Flutter team for the amazing framework
-- Google Maps Platform for location services
-- All contributors and testers
 
 ## 📞 Support
 
